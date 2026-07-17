@@ -51,9 +51,11 @@ export default function HeroVideo() {
           poster=""
           aria-hidden="true"
         />
-        {/* Layered film for legibility — not flat black */}
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-900/55 to-ink-900/85" />
-        <div className="absolute inset-0 mix-blend-multiply bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.6)_85%)]" />
+        {/* Layered film for legibility — lifted so the video stays bright */}
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-900/40 via-ink-900/25 to-ink-900/60" />
+        <div className="absolute inset-0 mix-blend-multiply bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.35)_95%)]" />
+        {/* A subtle warm sheen keeps the cream feel in the highlights */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,220,160,0.18),transparent_60%)]" />
 
         {/* Branded loader — visible until the video can render its first frame */}
         {!videoReady && (
