@@ -94,7 +94,7 @@ export default function Header() {
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-maroon-700/20 text-maroon-700"
+            className="glass-pill lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full text-maroon-800 transition-all duration-200 hover:-translate-y-0.5 hover:text-maroon-900 hover:shadow-soft"
           >
             <span className="sr-only">Menu</span>
             <svg
