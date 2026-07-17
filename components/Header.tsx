@@ -68,18 +68,14 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-3 py-2 text-sm font-medium tracking-wide transition-colors ${
+                  aria-current={active ? "page" : undefined}
+                  className={`glass-pill rounded-full px-3.5 py-1.5 text-sm font-medium tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft ${
                     active
-                      ? "text-maroon-700"
-                      : "text-ink-800/80 hover:text-maroon-700"
+                      ? "is-active"
+                      : "text-ink-800/85 hover:text-maroon-700"
                   }`}
                 >
                   {item.label}
-                  <span
-                    className={`absolute left-3 right-3 -bottom-0.5 h-px origin-left transition-transform duration-300 bg-maroon-700 ${
-                      active ? "scale-x-100" : "scale-x-0"
-                    }`}
-                  />
                 </Link>
               );
             })}
@@ -88,7 +84,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-2">
             <Link
               href="/contact#volunteer"
-              className="rounded-full bg-maroon-700 px-4 py-2 text-sm font-medium text-cream-50 shadow-soft hover:bg-maroon-800 transition-colors"
+              className="glass-pill rounded-full px-4 py-2 text-sm font-medium text-maroon-800 transition-all duration-200 hover:-translate-y-0.5 hover:text-maroon-900 hover:shadow-soft"
             >
               Volunteer
             </Link>
@@ -121,11 +117,11 @@ export default function Header() {
       {/* Mobile menu */}
       <div
         className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ${
-          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          open ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="mx-auto max-w-7xl px-5 pb-6">
-          <div className="rounded-2xl border border-maroon-700/10 bg-cream-50/95 backdrop-blur p-2 shadow-soft">
+          <div className="glass rounded-2xl p-2">
             {NAV.map((item) => {
               const active =
                 item.href === "/"
@@ -135,10 +131,11 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`block rounded-xl px-4 py-3 text-base font-medium ${
+                  aria-current={active ? "page" : undefined}
+                  className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
                     active
-                      ? "bg-maroon-700 text-cream-50"
-                      : "text-ink-800 hover:bg-maroon-700/5"
+                      ? "bg-maroon-700/85 text-cream-50"
+                      : "text-ink-800/85 hover:bg-white/40 hover:text-maroon-700"
                   }`}
                 >
                   {item.label}
@@ -147,7 +144,7 @@ export default function Header() {
             })}
             <Link
               href="/contact#volunteer"
-              className="mt-2 block rounded-xl bg-maroon-700 px-4 py-3 text-center text-cream-50 font-medium"
+              className="glass-pill mt-2 block rounded-xl px-4 py-3 text-center font-medium text-maroon-800 hover:text-maroon-900"
             >
               Volunteer with us
             </Link>
