@@ -45,7 +45,7 @@ export default function RootLayout({
       lang="en"
       className={`${serif.variable} ${sans.variable} ${deva.variable}`}
     >
-      <body className="min-h-screen flex flex-col">
+      <body className="grain-page min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

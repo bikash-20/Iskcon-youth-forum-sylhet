@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SectionHeading from "./SectionHeading";
+import Reveal from "./Reveal";
 import { UPCOMING_EVENTS } from "@/lib/content";
 
 function formatDate(iso: string) {
@@ -41,40 +42,41 @@ export default function UpcomingEvents() {
         </div>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
-          {UPCOMING_EVENTS.map((e) => {
+          {UPCOMING_EVENTS.map((e, i) => {
             const isRecurring = e.start.startsWith("Every");
             return (
-              <Link
-                key={e.slug}
-                href={`/events/${e.slug}`}
-                className={`group relative overflow-hidden rounded-2xl border bg-cream-50 p-7 transition-all hover:-translate-y-0.5 hover:shadow-ring ${
-                  e.isFeatured
-                    ? "border-maroon-700/40 ring-1 ring-maroon-700/20"
-                    : "border-maroon-700/10"
-                }`}
-              >
-                {e.isFeatured && (
-                  <span className="absolute right-5 top-5 rounded-full bg-saffron-200 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-maroon-800">
-                    Featured
+              <Reveal key={e.slug} delay={i * 100} y={18}>
+                <Link
+                  href={`/events/${e.slug}`}
+                  className={`group relative block h-full overflow-hidden rounded-2xl border bg-cream-50 p-7 shadow-soft transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-ring ${
+                    e.isFeatured
+                      ? "border-maroon-700/40 ring-1 ring-maroon-700/20"
+                      : "border-maroon-700/10"
+                  }`}
+                >
+                  {e.isFeatured && (
+                    <span className="absolute right-5 top-5 rounded-full bg-saffron-200 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-maroon-800">
+                      Featured
+                    </span>
+                  )}
+                  <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
+                    {isRecurring ? e.start : `${formatDate(e.start)} · ${formatTime(e.start)}`}
+                  </p>
+                  <h3 className="mt-3 font-serif text-2xl text-ink-900">
+                    {e.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-ink-800/80">{e.location}</p>
+                  <p className="mt-4 text-base leading-relaxed text-ink-800/90">
+                    {e.description}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-maroon-700">
+                    Details
+                    <span className="transition-transform duration-200 group-hover:translate-x-1">
+                      →
+                    </span>
                   </span>
-                )}
-                <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
-                  {isRecurring ? e.start : `${formatDate(e.start)} · ${formatTime(e.start)}`}
-                </p>
-                <h3 className="mt-3 font-serif text-2xl text-ink-900">
-                  {e.title}
-                </h3>
-                <p className="mt-2 text-sm text-ink-800/80">{e.location}</p>
-                <p className="mt-4 text-base leading-relaxed text-ink-800/90">
-                  {e.description}
-                </p>
-                <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-maroon-700">
-                  Details
-                  <span className="transition-transform group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </span>
-              </Link>
+                </Link>
+              </Reveal>
             );
           })}
         </div>

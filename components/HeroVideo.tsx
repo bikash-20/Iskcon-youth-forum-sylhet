@@ -7,6 +7,7 @@ export default function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(true);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -20,6 +21,16 @@ export default function HeroVideo() {
       }
     };
     tryPlay();
+    // Mark the video as ready when it can render its first frame.
+    const handleReady = () => setVideoReady(true);
+    v.addEventListener("canplay", handleReady);
+    // Safety net: if canplay never fires (e.g. cached + no metadata event),
+    // drop the loader after 1.5s so we never strand the user on it.
+    const fallback = window.setTimeout(handleReady, 1500);
+    return () => {
+      v.removeEventListener("canplay", handleReady);
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return (
@@ -28,7 +39,9 @@ export default function HeroVideo() {
       <div className="absolute inset-0 -z-10">
         <video
           ref={videoRef}
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover transition-opacity duration-700 ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
           src="/media/temple.mp4"
           autoPlay
           loop
@@ -41,6 +54,27 @@ export default function HeroVideo() {
         {/* Layered film for legibility — not flat black */}
         <div className="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-ink-900/55 to-ink-900/85" />
         <div className="absolute inset-0 mix-blend-multiply bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.6)_85%)]" />
+
+        {/* Branded loader — visible until the video can render its first frame */}
+        {!videoReady && (
+          <div
+            role="status"
+            aria-label="Loading temple video"
+            className="absolute inset-0 grid place-items-center"
+          >
+            <div className="flex flex-col items-center gap-4">
+              <span
+                aria-hidden="true"
+                className="font-deva text-5xl text-saffron-300/90 animate-om"
+              >
+                ॐ
+              </span>
+              <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-cream-50/60">
+                Loading
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-20 pb-28 sm:pt-28 sm:pb-40 lg:pt-36 lg:pb-52">
