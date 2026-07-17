@@ -6,7 +6,6 @@
   "installCommand": "npm ci",
   "devCommand": "npm run dev",
   "outputDirectory": ".next",
-  "nodeVersion": "20.x",
   "regions": ["sin1"],
   "github": {
     "silent": true,
