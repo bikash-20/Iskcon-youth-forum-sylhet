@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #fdfaf3;
+  --fg: #1a1410;
+  --accent: #7a1d1d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* A subtle paper grain used on hero and section backgrounds */
+.paper {
+  background-color: #fdfaf3;
+  background-image:
+    radial-gradient(rgba(122, 29, 29, 0.045) 1px, transparent 1px),
+    radial-gradient(rgba(122, 29, 29, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px, 56px 56px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* Decorative hairline that feels printed, not CSS-templatey */
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(122, 29, 29, 0.4),
+    transparent
+  );
+}
+
+/* Editorial drop cap */
+.dropcap::first-letter {
+  font-family: var(--font-serif), "Cormorant Garamond", serif;
+  font-size: 4.25rem;
+  line-height: 0.9;
+  float: left;
+  padding: 0.35rem 0.6rem 0 0;
+  color: #7a1d1d;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
