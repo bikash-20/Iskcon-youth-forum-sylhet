@@ -40,10 +40,11 @@ export default function LiveScheduleCard() {
     return () => clearInterval(id);
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const now = useMemo(() => nowBD(), [tick]);
   const { current, next, upcoming } = useMemo(
     () => classify(now, DAILY_PROGRAMME),
-    [now],
+    [now]
   );
 
   // Next's countdown uses today's BD time; if next slot is the first slot of

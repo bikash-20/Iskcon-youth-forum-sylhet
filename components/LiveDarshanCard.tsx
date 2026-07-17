@@ -51,7 +51,7 @@ export default function LiveDarshanCard() {
             </div>
           </div>
           <p className="mt-3 text-xs text-cream-50/60">
-            Tip: darshan is best on the temple's{" "}
+            Tip: darshan is best on the temple&rsquo;s{" "}
             <Link
               href="https://www.facebook.com/iyfsyl"
               target="_blank"

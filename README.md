@@ -58,3 +58,35 @@ await fetch(`${process.env.DJANGO_API}/api/contact-messages/`, {
 The source `temple.mp4` is shipped in `public/media/` at its original
 resolution. If a higher-quality render is later supplied, drop it in as
 `temple-1080.mp4` and add a `<source>` element to `components/HeroVideo.tsx`.
+
+## Deploy on Vercel
+
+This project is Vercel-ready out of the box.
+
+1. Push the repo to GitHub:
+   ```bash
+   git init
+   git add .
+   git commit -m "IYF Sylhet site"
+   git branch -M main
+   git remote add origin https://github.com/bikash-20/Iskcon-youth-forum-sylhet.git
+   git push -u origin main
+   ```
+2. Go to <https://vercel.com/new> and import `bikash-20/Iskcon-youth-forum-sylhet`.
+3. Vercel auto-detects **Next.js**. Leave the default Build Command (`npm run build`)
+   and Output Directory (`.next`) — they're also pinned in `vercel.json`.
+4. Click **Deploy**. Every subsequent push to `main` triggers a fresh
+   production deploy. Pull requests get preview URLs automatically.
+
+Environment variables (optional, set in the Vercel dashboard under
+**Settings → Environment Variables**):
+
+| Variable | Purpose |
+| -------- | ------- |
+| `DJANGO_API` | Base URL of the Django backend when `/api/contact` and `/api/volunteer` are wired up |
+
+## CI
+
+A GitHub Actions workflow at `.github/workflows/ci.yml` runs `typecheck`,
+`lint`, and `build` on every push and pull request to `main`. Dependabot
+(`.github/dependabot.yml`) opens weekly dependency PRs.

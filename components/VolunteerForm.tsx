@@ -158,7 +158,7 @@ export default function VolunteerForm() {
         </button>
         {status === "success" && (
           <p className="text-sm text-maroon-700">
-            Thank you — we'll be in touch.
+            Thank you &mdash; we&rsquo;ll be in touch.
           </p>
         )}
         {status === "error" && (
