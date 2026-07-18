@@ -35,6 +35,7 @@ export const env = {
   // Redis Cloud dashboard; credentials can be embedded in the URL or
   // supplied via `REDIS_USERNAME` / `REDIS_PASSWORD`.
   REDIS_URL: optional("REDIS_URL", ""),
+  SUBMISSION_TTL_SECONDS: Number(optional("SUBMISSION_TTL_SECONDS", String(60 * 60 * 24 * 90))), // 90 days
 
   // Cookie / session
   SESSION_COOKIE_NAME: optional("SESSION_COOKIE_NAME", "iyf_session"),

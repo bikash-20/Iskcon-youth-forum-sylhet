@@ -11,6 +11,7 @@
  * lazily GC'd on read.
  */
 
+import { env } from "./env";
 import { requireRedis } from "./redis";
 
 export type SubmissionKind = "contact" | "volunteer";
@@ -43,9 +44,7 @@ export type VolunteerSubmission = SubmissionBase & {
 
 export type Submission = ContactSubmission | VolunteerSubmission;
 
-const SUBMISSION_TTL_SECONDS = Number(
-  process.env.SUBMISSION_TTL_SECONDS ?? 60 * 60 * 24 * 90, // 90 days
-);
+const SUBMISSION_TTL_SECONDS = env.SUBMISSION_TTL_SECONDS;
 
 const idKey = (id: string) => `sub:${id}`;
 const zsetKey = (kind: SubmissionKind) => `subs:${kind}`;
