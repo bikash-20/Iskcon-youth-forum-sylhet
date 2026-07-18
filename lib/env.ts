@@ -36,7 +36,6 @@ export const env = {
   // supplied via `REDIS_USERNAME` / `REDIS_PASSWORD`.
   REDIS_URL: optional("REDIS_URL", ""),
   SUBMISSION_TTL_SECONDS: Number(optional("SUBMISSION_TTL_SECONDS", String(60 * 60 * 24 * 90))), // 90 days
-
   // Cookie / session
   SESSION_COOKIE_NAME: optional("SESSION_COOKIE_NAME", "iyf_session"),
   SESSION_TTL_SECONDS: Number(optional("SESSION_TTL_SECONDS", "43200")), // 12h
