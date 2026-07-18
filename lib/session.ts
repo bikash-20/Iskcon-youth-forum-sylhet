@@ -9,6 +9,10 @@ import { env } from "./env";
  * Why not `iron-session` or NextAuth? We have exactly one authenticated
  * surface (the admin dashboard), one secret, one cookie. Adding a dep for
  * 30 lines of well-trodden crypto would be over-engineering.
+ *
+ * Important: the verifier must split on the *same* delimiter the issuer
+ * concatenates with. We use `|` — not `.` — because `.` is the base64url
+ * alphabet and any other safe character risks collision.
  */
 
 const ENCODER = new TextEncoder();
@@ -44,7 +48,7 @@ export type SessionVerifyResult =
 
 export function verifySessionToken(token: string | undefined): SessionVerifyResult {
   if (!token) return { ok: false, reason: "malformed" };
-  const [body, sig] = token.split(".");
+  const [body, sig] = token.split("|");
   if (!body || !sig) return { ok: false, reason: "malformed" };
 
   let payload: string;
