@@ -129,9 +129,29 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="inline-flex items-center gap-2 rounded-full bg-maroon-700 px-6 py-3 text-sm font-medium text-cream-50 hover:bg-maroon-800 disabled:opacity-60"
+          className="focus-saffron inline-flex items-center gap-2 rounded-full bg-maroon-700 px-6 py-3 text-sm font-medium text-cream-50 shadow-soft transition-all hover:bg-maroon-800 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
         >
-          {status === "submitting" ? "Sending…" : "Send message"}
+          {status === "submitting" ? (
+            <>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="h-4 w-4 animate-spin"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="12" cy="12" r="9" strokeOpacity="0.25" />
+                <path d="M21 12a9 9 0 0 0-9-9" strokeLinecap="round" />
+              </svg>
+              <span>Sending…</span>
+            </>
+          ) : (
+            <>
+              <span>Send message</span>
+              <span>→</span>
+            </>
+          )}
         </button>
         {message && (
           <p
@@ -147,7 +167,7 @@ export default function ContactForm() {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-maroon-700/15 bg-cream-100/40 px-4 py-3 text-base text-ink-900 outline-none placeholder:text-ink-800/40 focus:border-maroon-700/50 focus:bg-cream-50 transition-colors";
+  "focus-saffron w-full rounded-xl border border-maroon-700/15 bg-cream-100/40 px-4 py-3 text-base text-ink-900 outline-none placeholder:text-ink-800/40 focus:border-maroon-700/50 focus:bg-cream-50 transition-colors";
 
 function Field({
   label,

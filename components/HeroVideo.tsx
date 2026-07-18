@@ -86,13 +86,13 @@ export default function HeroVideo() {
             Sri Sri Radha Madhava Mandir · Jugaltila
           </p>
 
-          <h1 className="mt-6 font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.02] text-cream-50 tracking-tightish">
+          <h1 className="mt-6 font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.02] text-cream-50 tracking-tightish display-tight">
             A quieter path
             <br />
             for the next generation.
           </h1>
 
-          <p className="mt-6 max-w-xl font-serif text-lg sm:text-xl leading-relaxed text-cream-50/85">
+          <p className="mt-6 max-w-xl font-serif text-lg sm:text-xl leading-relaxed text-cream-50/85 text-wrap: pretty">
             The ISKCON Youth Forum, Sylhet — a circle of students and young
             professionals reading scripture, singing kīrtan, and learning to
             live with intention.
@@ -101,7 +101,7 @@ export default function HeroVideo() {
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               href="/events"
-              className="group inline-flex items-center gap-2 rounded-full bg-saffron-500 px-6 py-3 text-sm font-medium text-ink-900 shadow-soft transition-all hover:bg-saffron-400"
+              className="focus-saffron group inline-flex items-center gap-2 rounded-full bg-saffron-500 px-6 py-3 text-sm font-medium text-ink-900 shadow-soft transition-all hover:bg-saffron-400"
             >
               Upcoming Events
               <span className="transition-transform group-hover:translate-x-0.5">
@@ -110,7 +110,7 @@ export default function HeroVideo() {
             </Link>
             <Link
               href="/schedule"
-              className="inline-flex items-center gap-2 rounded-full border border-cream-50/30 px-6 py-3 text-sm font-medium text-cream-50 hover:bg-cream-50/10"
+              className="focus-saffron inline-flex items-center gap-2 rounded-full border border-cream-50/30 px-6 py-3 text-sm font-medium text-cream-50 hover:bg-cream-50/10 transition-colors"
             >
               Daily Schedule
             </Link>
@@ -129,7 +129,7 @@ export default function HeroVideo() {
                   setPlaying(false);
                 }
               }}
-              className="grid h-9 w-9 place-items-center rounded-full border border-cream-50/30 hover:bg-cream-50/10"
+              className="focus-saffron grid h-9 w-9 place-items-center rounded-full border border-cream-50/30 hover:bg-cream-50/10 transition-colors"
               aria-label={playing ? "Pause background video" : "Play background video"}
             >
               {playing ? (
@@ -148,7 +148,7 @@ export default function HeroVideo() {
                 setMuted((m) => !m);
                 if (videoRef.current) videoRef.current.muted = !muted;
               }}
-              className="grid h-9 w-9 place-items-center rounded-full border border-cream-50/30 hover:bg-cream-50/10"
+              className="focus-saffron grid h-9 w-9 place-items-center rounded-full border border-cream-50/30 hover:bg-cream-50/10 transition-colors"
               aria-label={muted ? "Unmute video" : "Mute video"}
             >
               {muted ? (

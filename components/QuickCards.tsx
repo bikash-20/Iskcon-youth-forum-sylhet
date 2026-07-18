@@ -51,7 +51,7 @@ export default function QuickCards() {
               href={c.href}
               target={c.external ? "_blank" : undefined}
               rel={c.external ? "noreferrer" : undefined}
-              className="group relative overflow-hidden rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-ring"
+              className="card-elevate accent-ribbon gold-hairline group relative overflow-hidden rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft"
             >
               <div className="absolute right-4 top-4 text-2xl opacity-70 transition-opacity group-hover:opacity-100">
                 {c.icon}

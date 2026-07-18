@@ -30,9 +30,10 @@ export const env = {
   ),
   ADMIN_EMAIL: required("ADMIN_EMAIL"),
 
-  // Redis (Upstash). Required at runtime for persistence + rate limiting.
-  // Accept either the REST URL form (https://...upstash.io) + REDIS_TOKEN,
-  // or a single URL with embedded credentials.
+  // Redis (ioredis / Redis Cloud). Required at runtime for persistence +
+  // rate limiting. Use the TCP `redis://` or TLS `rediss://` URL from the
+  // Redis Cloud dashboard; credentials can be embedded in the URL or
+  // supplied via `REDIS_USERNAME` / `REDIS_PASSWORD`.
   REDIS_URL: optional("REDIS_URL", ""),
   REDIS_TOKEN: optional("REDIS_TOKEN", ""),
 

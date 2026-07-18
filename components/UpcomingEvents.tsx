@@ -48,7 +48,7 @@ export default function UpcomingEvents() {
               <Reveal key={e.slug} delay={i * 100} y={18}>
                 <Link
                   href={`/events/${e.slug}`}
-                  className={`group relative block h-full overflow-hidden rounded-2xl border bg-cream-50 p-7 shadow-soft transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-ring ${
+                  className={`card-elevate accent-ribbon group relative block h-full overflow-hidden rounded-2xl border bg-cream-50 p-7 shadow-soft ${
                     e.isFeatured
                       ? "border-maroon-700/40 ring-1 ring-maroon-700/20"
                       : "border-maroon-700/10"

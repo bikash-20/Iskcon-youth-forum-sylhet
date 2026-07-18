@@ -1,66 +1,82 @@
-import { getRedis } from "./redis";
-
 /**
- * Sliding-window-ish rate limiter backed by Upstash Redis.
+ * Sliding-window-ish rate limiter backed by Redis.
  *
- * Strategy: INCR a key whose TTL is the window. The first request in a
- * window sets `count=1`; subsequent requests just INCR. If `count > limit`
- * after the increment we treat as limited.
+ * Algorithm: fixed-window. One counter per key, INCR + EXPIRE NX.
+ * Adequate for low-volume contact/volunteer forms; not for high RPS.
  *
- * When Redis is unavailable (dev, or Upstash outage) we fall back to a
- * per-instance Map so the dev server still works. That fallback is **not**
- * shared across instances — on Vercel each lambda has its own.
+ * Falls back to a tiny in-memory limiter if Redis is unavailable, so
+ * the form still works in dev and stays open under partial outage.
  */
 
-type Verdict =
+import { getRedis } from "./redis";
+
+type RateLimitResult =
   | { ok: true; remaining: number }
   | { ok: false; retryAfter: number };
 
-const FALLBACK = new Map<string, { count: number; resetAt: number }>();
+const memBuckets = new Map<string, { count: number; expiresAt: number }>();
+
+function memRateLimit(
+  key: string,
+  limit: number,
+  windowSec: number,
+): RateLimitResult {
+  const now = Date.now();
+  const existing = memBuckets.get(key);
+  if (!existing || existing.expiresAt <= now) {
+    memBuckets.set(key, { count: 1, expiresAt: now + windowSec * 1000 });
+    return { ok: true, remaining: limit - 1 };
+  }
+  existing.count += 1;
+  if (existing.count > limit) {
+    return { ok: false, retryAfter: Math.ceil((existing.expiresAt - now) / 1000) };
+  }
+  return { ok: true, remaining: limit - existing.count };
+}
 
 export async function rateLimit(
   key: string,
   limit: number,
   windowSec: number,
-): Promise<Verdict> {
+): Promise<RateLimitResult> {
   const r = getRedis();
-  if (r.ok) {
-    try {
-      const fullKey = `rl:${key}`;
-      const pipe = r.client.pipeline();
-      pipe.incr(fullKey);
-      pipe.expire(fullKey, windowSec, "NX" as never);
-      const res = (await pipe.exec()) as unknown as Array<
-        number | { result: number }
-      >;
-      const count = Number(res[0] ?? 0);
-      if (count > limit) {
-        return { ok: false, retryAfter: windowSec };
-      }
-      return { ok: true, remaining: Math.max(0, limit - count) };
-    } catch (err) {
-      // Redis unreachable — degrade gracefully. Better to serve than 500.
-      // eslint-disable-next-line no-console
-      console.warn("[rateLimit] redis failure, allowing request", err);
-    }
+  if (!r.ok) {
+    // Redis unavailable — degrade to per-instance limiter so the form
+    // doesn't break entirely. Reasonable for low-volume contact forms.
+    return memRateLimit(key, limit, windowSec);
   }
 
-  // In-memory fallback
-  const now = Date.now();
-  const entry = FALLBACK.get(key);
-  if (!entry || entry.resetAt < now) {
-    FALLBACK.set(key, { count: 1, resetAt: now + windowSec * 1000 });
-    return { ok: true, remaining: limit - 1 };
+  const redisKey = `rl:${key}`;
+  try {
+    const pipe = r.client.pipeline();
+    pipe.incr(redisKey);
+    pipe.ttl(redisKey);
+    const res = (await pipe.exec()) ?? [];
+    const incrRes = res[0]?.[1];
+    const ttlRes = res[1]?.[1];
+    const count = Number(incrRes ?? 0);
+    if (count === 1 || ttlRes === -1) {
+      await r.client.expire(redisKey, windowSec);
+    }
+    if (count > limit) {
+      const ttl = Number(ttlRes ?? windowSec);
+      return { ok: false, retryAfter: Math.max(1, ttl) };
+    }
+    return { ok: true, remaining: Math.max(0, limit - count) };
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn("[ratelimit] redis error, falling back:", err);
+    return memRateLimit(key, limit, windowSec);
   }
-  if (entry.count >= limit) {
-    return { ok: false, retryAfter: Math.ceil((entry.resetAt - now) / 1000) };
-  }
-  entry.count += 1;
-  return { ok: true, remaining: limit - entry.count };
 }
 
 export function getClientIp(headers: Headers): string {
   const xff = headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0].trim();
-  return headers.get("x-real-ip") ?? "unknown";
+  if (xff) {
+    const first = xff.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  const xri = headers.get("x-real-ip");
+  if (xri) return xri.trim();
+  return "0.0.0.0";
 }

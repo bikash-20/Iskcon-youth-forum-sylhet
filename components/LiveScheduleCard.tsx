@@ -71,7 +71,7 @@ export default function LiveScheduleCard() {
             <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
               Live schedule
             </p>
-            <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-ink-900 tracking-tightish">
+            <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-ink-900 tracking-tightish display-tight">
               <span className="text-maroon-700">Bangladesh</span> ·{" "}
               <span className="tabular-nums">{formatBDClock(now)}</span>
             </h2>
@@ -81,7 +81,7 @@ export default function LiveScheduleCard() {
                 : headerNote}
             </p>
 
-            <ol className="mt-8 divide-y divide-maroon-700/10 rounded-2xl border border-maroon-700/10 bg-cream-50 shadow-soft">
+            <ol className="mt-8 divide-y divide-maroon-700/10 rounded-2xl border border-maroon-700/10 bg-cream-50 shadow-soft accent-ribbon">
               {DAILY_PROGRAMME.map((s) => {
                 const isCurrent = current?.name === s.name && current?.time === s.time;
                 const isNext = next?.name === s.name && next?.time === s.time;
@@ -129,7 +129,7 @@ export default function LiveScheduleCard() {
           </div>
 
           <aside className="lg:col-span-5">
-            <div className="rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft sm:p-7">
+            <div className="accent-ribbon rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft sm:p-7">
               <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
                 Coming up
               </p>

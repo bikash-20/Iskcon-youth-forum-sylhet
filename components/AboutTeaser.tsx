@@ -18,7 +18,7 @@ export default function AboutTeaser() {
             artists, and parents. We meet for kirtan, for classes, and for the
             quieter work of becoming better people.
           </p>
-          <p className="mt-4 text-lg leading-relaxed text-ink-800/90">
+          <p className="mt-4 text-lg leading-relaxed text-ink-800/90 text-wrap: pretty">
             Our roots are in the Brahma-Madhva-Gaudiya tradition, and our
             teacher is the lineage of Srila Prabhupada. The practice is
             simple: hear about Krishna, chant His names, eat together, and
@@ -36,7 +36,7 @@ export default function AboutTeaser() {
         </div>
 
         <aside className="lg:col-span-5">
-          <div className="rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft">
+          <div className="accent-ribbon rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-maroon-700/80">
               The deities
             </p>

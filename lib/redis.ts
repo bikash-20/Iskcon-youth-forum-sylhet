@@ -1,82 +1,62 @@
-import { Redis } from "@upstash/redis";
-import { env } from "./env";
+import Redis, { type RedisOptions } from "ioredis";
 
 /**
- * Resolves the Redis REST client.
+ * Single ioredis client, lazily created.
  *
- * Supports two configurations:
+ * Why a singleton? `ioredis` opens a real TCP connection and the server's
+ * runtime (Vercel serverless, OpenNext, dev server) recycles between calls.
+ * Re-opening on every request would be expensive and would force dozens of
+ * TIME_WAIT sockets.
  *
- *   1) REDIS_URL + REDIS_TOKEN explicitly set.
- *   2) REDIS_URL alone, with credentials embedded:
- *        https://default:<token>@<host>.upstash.io
+ * Why ioredis, not @upstash/redis? The project uses Redis Cloud which
+ * speaks plain RESP over `rediss://…` (TLS). ioredis is the canonical
+ * Node client and supports TLS, auth, and the full command surface we use.
  *
- * Returns `null` if no Redis is configured — callers can then decide
- * whether to fall back or refuse the request.
+ * Node runtime only — does NOT work in Edge. The `runtime` is configured
+ * at the route level via `export const runtime = "nodejs"`.
  */
 
-export type RedisResolved =
-  | { ok: true; client: Redis }
-  | { ok: false; reason: "missing" | "invalid-url" };
+type ClientStatus = { ok: true; client: Redis } | { ok: false; reason: string };
 
-let cached: Redis | null = null;
-let resolved: RedisResolved | null = null;
+let client: Redis | null = null;
+let lastErr: unknown = null;
 
-export function getRedis(): RedisResolved {
-  if (resolved) return resolved;
-
-  const raw = env.REDIS_URL.trim();
-  if (!raw) {
-    resolved = { ok: false, reason: "missing" };
-    return resolved;
-  }
-
-  let url: string | null = null;
-  let token: string | null = env.REDIS_TOKEN || null;
+export function getRedis(): ClientStatus {
+  if (client) return { ok: true, client };
+  const url = process.env.REDIS_URL;
+  if (!url) return { ok: false, reason: "REDIS_URL is not set" };
 
   try {
-    // Accept either "redis://...", "rediss://...", or "https://...".
-    const u = new URL(raw);
-    if (u.protocol === "redis:" || u.protocol === "rediss:") {
-      // TCP form. The Upstash REST SDK does not support it directly —
-      // the user must set the REST URL+token in that case.
-      resolved = { ok: false, reason: "invalid-url" };
-      return resolved;
-    }
-    if (u.username) {
-      token = token || decodeURIComponent(u.password);
-      // Strip credentials from the URL — the SDK prefers them separate.
-      u.username = "";
-      u.password = "";
-      url = u.toString().replace(/\/$/, "");
-    } else {
-      url = raw.replace(/\/$/, "");
-    }
-  } catch {
-    resolved = { ok: false, reason: "invalid-url" };
-    return resolved;
+    const opts: RedisOptions = {
+      // ioredis infers `tls` from `rediss://`; we set it explicitly so a
+      // future URL change can't silently downgrade.
+      tls: url.startsWith("rediss://") ? {} : undefined,
+      maxRetriesPerRequest: 3,
+      enableOfflineQueue: true,
+      retryStrategy: (times) => Math.min(times * 200, 2000),
+    };
+    client = new Redis(url, opts);
+    client.on("error", (e) => {
+      lastErr = e;
+      // eslint-disable-next-line no-console
+      console.warn("[redis] error:", e.message);
+    });
+    return { ok: true, client };
+  } catch (e) {
+    lastErr = e;
+    return {
+      ok: false,
+      reason: e instanceof Error ? e.message : "redis init failed",
+    };
   }
-
-  if (!token) {
-    resolved = { ok: false, reason: "invalid-url" };
-    return resolved;
-  }
-
-  cached = new Redis({ url: url as string, token });
-  resolved = { ok: true, client: cached };
-  return resolved;
 }
 
-/**
- * Throws-friendly variant for routes that must have Redis configured.
- */
 export function requireRedis(): Redis {
   const r = getRedis();
-  if (!r.ok) {
-    throw new Error(
-      r.reason === "missing"
-        ? "Redis is not configured. Set REDIS_URL and REDIS_TOKEN."
-        : "REDIS_URL appears to be a TCP/redis:// URL. The Upstash SDK requires the REST URL (https://...).",
-    );
-  }
+  if (!r.ok) throw new Error(`Redis unavailable: ${r.reason}`);
   return r.client;
+}
+
+export function lastRedisError(): unknown {
+  return lastErr;
 }

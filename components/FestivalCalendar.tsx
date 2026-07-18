@@ -85,7 +85,7 @@ function headingFor(month: string) {
 
 function FestivalCard({ f }: { f: Festival }) {
   return (
-    <article className="group h-full rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-ring">
+    <article className="card-elevate accent-ribbon group h-full rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft">
       <div className="flex items-start justify-between gap-3">
         <span
           className={`rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider ${KIND_TONE[f.kind]}`}

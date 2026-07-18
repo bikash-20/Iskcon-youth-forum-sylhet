@@ -42,14 +42,14 @@ export default function CoordinatorMessage() {
           <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
             From the Coordinator
           </p>
-          <h2 className="mt-3 font-serif text-4xl leading-tight text-ink-900 sm:text-5xl tracking-tightish">
+          <h2 className="mt-3 font-serif text-4xl leading-tight text-ink-900 sm:text-5xl tracking-tightish display-tight">
             Connecting with your own heart.
           </h2>
           <p className="mt-3 font-serif text-lg italic text-maroon-700">
             A short letter, in person.
           </p>
 
-          <div className="mt-7 space-y-5 text-base sm:text-lg leading-relaxed text-ink-800/90">
+          <div className="mt-7 prose-spiritual text-base sm:text-lg text-ink-800/90">
             <p className="first-letter:float-left first-letter:mr-2 first-letter:mt-1 first-letter:font-serif first-letter:text-6xl first-letter:leading-none first-letter:text-maroon-700">
               In today's world, we have learned how to connect with everyone
               through technology, yet many of us struggle to connect with our

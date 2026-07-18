@@ -3,12 +3,12 @@ import Link from "next/link";
 export default function LiveDarshanCard() {
   return (
     <section className="mx-auto mt-20 max-w-7xl px-5 sm:px-8 sm:mt-24">
-      <div className="grid gap-6 rounded-3xl border border-maroon-700/10 bg-gradient-to-br from-maroon-700 to-maroon-800 p-8 sm:p-12 lg:grid-cols-2 lg:gap-10 lg:p-16 shadow-soft">
+      <div className="accent-ribbon grid gap-6 rounded-3xl border border-maroon-700/10 bg-gradient-to-br from-maroon-700 to-maroon-800 p-8 sm:p-12 lg:grid-cols-2 lg:gap-10 lg:p-16 shadow-soft">
         <div className="flex flex-col justify-center">
-          <p className="text-xs uppercase tracking-[0.22em] text-saffron-200">
+          <p className="text-xs uppercase tracking-[0.22em] text-saffron-200 eyebrow-line">
             Sandhyā Arati · Kīrtan
           </p>
-          <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-cream-50 tracking-tightish">
+          <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-cream-50 tracking-tightish display-tight">
             Live darshan from the mandir
           </h2>
           <p className="mt-4 max-w-md text-cream-50/80 leading-relaxed">
@@ -21,7 +21,7 @@ export default function LiveDarshanCard() {
               href="https://www.facebook.com/iyfsyl"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-cream-50 px-5 py-2.5 text-sm font-medium text-maroon-800 hover:bg-cream-100"
+              className="focus-saffron inline-flex items-center gap-2 rounded-full bg-cream-50 px-5 py-2.5 text-sm font-medium text-maroon-800 hover:bg-cream-100 transition-colors"
             >
               Watch on Facebook
               <span>→</span>

@@ -69,7 +69,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`glass-pill rounded-full px-3.5 py-1.5 text-sm font-medium tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft ${
+                  className={`glass-pill focus-saffron rounded-full px-3.5 py-1.5 text-sm font-medium tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft ${
                     active
                       ? "is-active"
                       : "text-ink-800/85 hover:text-maroon-700"
@@ -84,7 +84,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-2">
             <Link
               href="/contact#volunteer"
-              className="glass-pill rounded-full px-4 py-2 text-sm font-medium text-maroon-800 transition-all duration-200 hover:-translate-y-0.5 hover:text-maroon-900 hover:shadow-soft"
+              className="glass-pill focus-saffron rounded-full px-4 py-2 text-sm font-medium text-maroon-800 transition-all duration-200 hover:-translate-y-0.5 hover:text-maroon-900 hover:shadow-soft"
             >
               Volunteer
             </Link>
@@ -94,7 +94,7 @@ export default function Header() {
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="glass-pill lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full text-maroon-800 transition-all duration-200 hover:-translate-y-0.5 hover:text-maroon-900 hover:shadow-soft"
+            className="glass-pill focus-saffron lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full text-maroon-800 transition-all duration-200 hover:-translate-y-0.5 hover:text-maroon-900 hover:shadow-soft"
           >
             <span className="sr-only">Menu</span>
             <svg
