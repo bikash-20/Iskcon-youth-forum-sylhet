@@ -6,11 +6,14 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [message, setMessage] = useState<string>("");
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
+    // Honeypot: must remain empty. Real users never see it.
+    hp: "",
   });
 
   const onChange = (
@@ -20,16 +23,31 @@ export default function ContactForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("submitting");
+    setMessage("");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error("Network error");
+      const json = (await res.json().catch(() => null)) as
+        | { ok: true }
+        | { ok: false; error?: { message?: string } }
+        | null;
+      if (!res.ok || !json || json.ok !== true) {
+        const m =
+          json && json.ok === false && json.error?.message
+            ? json.error.message
+            : "Could not send your message. Please try again.";
+        setMessage(m);
+        setStatus("error");
+        return;
+      }
       setStatus("success");
-      setForm({ name: "", email: "", phone: "", message: "" });
+      setMessage("Thank you — we'll write back soon.");
+      setForm({ name: "", email: "", phone: "", message: "", hp: "" });
     } catch {
+      setMessage("Network error. Please check your connection and try again.");
       setStatus("error");
     }
   };
@@ -37,11 +55,27 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={onSubmit}
+      noValidate
       className="rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft sm:p-8"
     >
       <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
         Send a message
       </p>
+
+      {/* Honeypot — hidden from users and screen readers. */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px" }}>
+        <label>
+          Leave this empty
+          <input
+            type="text"
+            name="hp"
+            tabIndex={-1}
+            autoComplete="off"
+            value={form.hp}
+            onChange={onChange}
+          />
+        </label>
+      </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Field label="Your name">
@@ -50,6 +84,7 @@ export default function ContactForm() {
             name="name"
             value={form.name}
             onChange={onChange}
+            maxLength={120}
             className={inputCls}
             placeholder="Rohan Das"
           />
@@ -61,6 +96,7 @@ export default function ContactForm() {
             name="email"
             value={form.email}
             onChange={onChange}
+            maxLength={254}
             className={inputCls}
             placeholder="you@example.com"
           />
@@ -70,6 +106,7 @@ export default function ContactForm() {
             name="phone"
             value={form.phone}
             onChange={onChange}
+            maxLength={40}
             className={inputCls}
             placeholder="+880 ..."
           />
@@ -81,6 +118,7 @@ export default function ContactForm() {
             rows={5}
             value={form.message}
             onChange={onChange}
+            maxLength={4000}
             className={`${inputCls} resize-y`}
             placeholder="Tell us a little about why you're writing..."
           />
@@ -95,14 +133,12 @@ export default function ContactForm() {
         >
           {status === "submitting" ? "Sending…" : "Send message"}
         </button>
-        {status === "success" && (
-          <p className="text-sm text-maroon-700">
-            Thank you — we'll write back soon.
-          </p>
-        )}
-        {status === "error" && (
-          <p className="text-sm text-maroon-700">
-            Something went wrong. Please try again or call us.
+        {message && (
+          <p
+            className={`text-sm ${status === "success" ? "text-maroon-700" : "text-maroon-700"}`}
+            role={status === "error" ? "alert" : "status"}
+          >
+            {message}
           </p>
         )}
       </div>

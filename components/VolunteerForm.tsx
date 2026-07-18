@@ -15,15 +15,24 @@ const SKILLS = [
   "Translation",
 ];
 
+const AVAILABILITY = [
+  "Weekday mornings",
+  "Weekday evenings",
+  "Weekends",
+  "Festival days only",
+] as const;
+
 export default function VolunteerForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [message, setMessage] = useState<string>("");
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     skills: new Set<string>(),
-    availability: "Weekends",
+    availability: "Weekends" as (typeof AVAILABILITY)[number],
     note: "",
+    hp: "",
   });
 
   const toggleSkill = (s: string) => {
@@ -38,6 +47,7 @@ export default function VolunteerForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("submitting");
+    setMessage("");
     try {
       const res = await fetch("/api/volunteer", {
         method: "POST",
@@ -47,9 +57,32 @@ export default function VolunteerForm() {
           skills: Array.from(form.skills),
         }),
       });
-      if (!res.ok) throw new Error("Network error");
+      const json = (await res.json().catch(() => null)) as
+        | { ok: true }
+        | { ok: false; error?: { message?: string } }
+        | null;
+      if (!res.ok || !json || json.ok !== true) {
+        const m =
+          json && json.ok === false && json.error?.message
+            ? json.error.message
+            : "Could not sign you up. Please try again.";
+        setMessage(m);
+        setStatus("error");
+        return;
+      }
       setStatus("success");
+      setMessage("Thank you — we'll be in touch.");
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        skills: new Set<string>(),
+        availability: "Weekends",
+        note: "",
+        hp: "",
+      });
     } catch {
+      setMessage("Network error. Please check your connection and try again.");
       setStatus("error");
     }
   };
@@ -57,14 +90,31 @@ export default function VolunteerForm() {
   return (
     <form
       onSubmit={onSubmit}
+      noValidate
       className="rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft sm:p-8"
     >
+      {/* Honeypot */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px" }}>
+        <label>
+          Leave this empty
+          <input
+            type="text"
+            name="hp"
+            tabIndex={-1}
+            autoComplete="off"
+            value={form.hp}
+            onChange={(e) => setForm((f) => ({ ...f, hp: e.target.value }))}
+          />
+        </label>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Full name">
           <input
             required
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+            maxLength={120}
             className={inputCls}
             placeholder="Your name"
           />
@@ -75,6 +125,7 @@ export default function VolunteerForm() {
             type="email"
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+            maxLength={254}
             className={inputCls}
             placeholder="you@example.com"
           />
@@ -84,6 +135,7 @@ export default function VolunteerForm() {
             required
             value={form.phone}
             onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+            maxLength={40}
             className={inputCls}
             placeholder="+880 ..."
           />
@@ -92,16 +144,14 @@ export default function VolunteerForm() {
           <select
             value={form.availability}
             onChange={(e) =>
-              setForm((f) => ({ ...f, availability: e.target.value }))
+              setForm((f) => ({
+                ...f,
+                availability: e.target.value as (typeof AVAILABILITY)[number],
+              }))
             }
             className={inputCls}
           >
-            {[
-              "Weekday mornings",
-              "Weekday evenings",
-              "Weekends",
-              "Festival days only",
-            ].map((o) => (
+            {AVAILABILITY.map((o) => (
               <option key={o}>{o}</option>
             ))}
           </select>
@@ -142,6 +192,7 @@ export default function VolunteerForm() {
             rows={4}
             value={form.note}
             onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
+            maxLength={2000}
             className={`${inputCls} mt-2 resize-y`}
             placeholder="Languages, prior experience, a quiet note..."
           />
@@ -156,14 +207,12 @@ export default function VolunteerForm() {
         >
           {status === "submitting" ? "Sending…" : "Sign me up"}
         </button>
-        {status === "success" && (
-          <p className="text-sm text-maroon-700">
-            Thank you &mdash; we&rsquo;ll be in touch.
-          </p>
-        )}
-        {status === "error" && (
-          <p className="text-sm text-maroon-700">
-            Something went wrong. Please try again.
+        {message && (
+          <p
+            className="text-sm text-maroon-700"
+            role={status === "error" ? "alert" : "status"}
+          >
+            {message}
           </p>
         )}
       </div>
