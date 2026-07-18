@@ -19,7 +19,6 @@ import Redis, { type RedisOptions } from "ioredis";
 type ClientStatus = { ok: true; client: Redis } | { ok: false; reason: string };
 
 let client: Redis | null = null;
-let lastErr: unknown = null;
 
 export function getRedis(): ClientStatus {
   if (client) return { ok: true, client };
@@ -37,13 +36,11 @@ export function getRedis(): ClientStatus {
     };
     client = new Redis(url, opts);
     client.on("error", (e) => {
-      lastErr = e;
       // eslint-disable-next-line no-console
       console.warn("[redis] error:", e.message);
     });
     return { ok: true, client };
   } catch (e) {
-    lastErr = e;
     return {
       ok: false,
       reason: e instanceof Error ? e.message : "redis init failed",
@@ -55,8 +52,4 @@ export function requireRedis(): Redis {
   const r = getRedis();
   if (!r.ok) throw new Error(`Redis unavailable: ${r.reason}`);
   return r.client;
-}
-
-export function lastRedisError(): unknown {
-  return lastErr;
 }

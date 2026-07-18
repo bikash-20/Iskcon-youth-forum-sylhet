@@ -26,6 +26,18 @@ export function methodNotAllowed(allow: string[]) {
   );
 }
 
-export function isString(x: unknown): x is string {
-  return typeof x === "string";
+/**
+ * Standard 429 response for rate-limited POSTs.
+ */
+export function rateLimited(retryAfter: number) {
+  return NextResponse.json(
+    {
+      ok: false,
+      error: {
+        message: "Too many submissions. Try again later.",
+        code: "rate_limited",
+      },
+    },
+    { status: 429, headers: { "Retry-After": String(retryAfter) } },
+  );
 }

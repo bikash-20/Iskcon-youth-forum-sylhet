@@ -37,7 +37,7 @@ export default async function AdminPage({
     // eslint-disable-next-line no-console
     console.error("[admin/page] load failed", err);
     loadError =
-      "Submissions could not be loaded. Check that REDIS_URL and REDIS_TOKEN are configured.";
+      "Submissions could not be loaded. Check that REDIS_URL is configured.";
   }
 
   return (
