@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { ok, methodNotAllowed } from "@/lib/http";
 import { SESSION_COOKIE } from "@/lib/session";
-import { methodNotAllowed, ok } from "@/lib/http";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

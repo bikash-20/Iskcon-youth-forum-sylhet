@@ -22,8 +22,6 @@ const KIND_TONE: Record<FestivalKind, string> = {
 };
 
 export default function FestivalCalendar() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
 
   const groups = groupByMonth(FESTIVALS);
 

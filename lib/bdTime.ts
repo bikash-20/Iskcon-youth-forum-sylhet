@@ -2,8 +2,7 @@
 // "BD now" as a Date with the same wall-clock fields as the current moment in
 // Asia/Dhaka — used purely so the countdown matches the temple's local clock.
 
-export const BD_OFFSET_MIN = 6 * 60; // UTC+6
-export const BD_TZ = "Asia/Dhaka";
+const BD_OFFSET_MIN = 6 * 60; // UTC+6
 
 /** Returns a Date whose UTC fields equal the current wall-clock in BD. */
 export function nowBD(): Date {

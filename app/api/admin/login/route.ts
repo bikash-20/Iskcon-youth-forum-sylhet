@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
 import { env } from "@/lib/env";
 import { AdminLoginSchema } from "@/lib/schema";
 import { createSessionToken, safeEqual, SESSION_COOKIE } from "@/lib/session";
