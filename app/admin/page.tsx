@@ -4,7 +4,7 @@ import Link from "next/link";
 import {
   countSubmissions,
   listSubmissions,
-  type SubmissionKind,
+  parseSubmissionKind,
 } from "@/lib/store";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 import AdminDashboard from "./AdminDashboard";
@@ -21,10 +21,7 @@ export default async function AdminPage({
     redirect("/admin/login");
   }
 
-  const kindRaw = (searchParams.kind ?? "all") as SubmissionKind | "all";
-  const kind: SubmissionKind | "all" =
-    kindRaw === "contact" || kindRaw === "volunteer" ? kindRaw : "all";
-
+  const kind = parseSubmissionKind(searchParams.kind);
   let items: Awaited<ReturnType<typeof listSubmissions>> = [];
   let counts = { contact: 0, volunteer: 0 };
   let loadError: string | null = null;

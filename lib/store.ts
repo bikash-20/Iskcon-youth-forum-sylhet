@@ -151,3 +151,14 @@ export async function deleteSubmission(id: string): Promise<void> {
     await r.del(idKey(id));
   }
 }
+
+/**
+ * Coerce a raw query-string value into a valid kind filter. Anything
+ * other than "contact" / "volunteer" / "all" is normalised to "all" so
+ * the dashboard never crashes on bad input.
+ */
+export function parseSubmissionKind(
+  raw: string | null | undefined,
+): SubmissionKind | "all" {
+  return raw === "contact" || raw === "volunteer" ? raw : "all";
+}

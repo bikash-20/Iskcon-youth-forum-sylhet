@@ -1,81 +1,41 @@
-import { cookies } from "next/headers";
-import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
-import { listSubmissions, type SubmissionKind } from "@/lib/store";
-import { fail, methodNotAllowed } from "@/lib/http";
+import { listSubmissions, parseSubmissionKind } from "@/lib/store";
+import { requireAdmin } from "@/lib/session";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function csvEscape(v: unknown): string {
-  if (v === undefined || v === null) return "";
-  const s = String(v);
-  if (/[",\n\r]/.test(s)) {
-    return `"${s.replace(/"/g, '""')}"`;
-  }
-  return s;
+function escapeCsv(value: string): string {
+  if (/[",\n\r]/.test(value)) return `"${value.replace(/"/g, "\"\"")}"`;
+  return value;
 }
 
-export async function GET(req: Request) {
-  if (req.method !== "GET") return methodNotAllowed(["GET"]);
+function row(values: Array<string | number | undefined>): string {
+  return values.map((v) => escapeCsv(v == null ? "" : String(v))).join(",");
+}
 
-  const token = cookies().get(SESSION_COOKIE)?.value;
-  if (!verifySessionToken(token).ok) {
-    return fail(401, "Not authenticated", "unauthorized");
-  }
+const HEADER = [
+  "id","kind","createdAt","name","email","phone","availability","skills","message","note","ip","userAgent",
+].join(",");
+
+export async function GET(req: Request) {
+  const gate = requireAdmin();
+  if (gate) return gate;
 
   const url = new URL(req.url);
-  const kindRaw = (url.searchParams.get("kind") ?? "all") as SubmissionKind | "all";
-  const kind: SubmissionKind | "all" =
-    kindRaw === "contact" || kindRaw === "volunteer" ? kindRaw : "all";
+  const kind = parseSubmissionKind(url.searchParams.get("kind"));
 
-  const items = await listSubmissions({ kind, limit: 1000 });
-
-  const headers = [
-    "id",
-    "kind",
-    "createdAt",
-    "name",
-    "email",
-    "phone",
-    "availability",
-    "skills",
-    "note",
-    "message",
-    "ip",
-    "userAgent",
-  ];
-
-  const lines = [headers.join(",")];
-  for (const s of items) {
-    lines.push(
-      [
-        s.id,
-        s.kind,
-        new Date(s.createdAt).toISOString(),
-        s.name,
-        s.email,
-        s.kind === "volunteer" ? s.phone : (s.phone ?? ""),
-        s.kind === "volunteer" ? s.availability : "",
-        s.kind === "volunteer" ? (s.skills ?? []).join("|") : "",
-        s.kind === "volunteer" ? (s.note ?? "") : "",
-        s.kind === "contact" ? s.message : "",
-        s.ip,
-        s.userAgent,
-      ]
-        .map(csvEscape)
-        .join(","),
-    );
-  }
-
-  const body = lines.join("\n");
-  const filename = `iyf-submissions-${kind}-${new Date().toISOString().slice(0, 10)}.csv`;
+  const items = await listSubmissions({ kind, limit: 500 });
+  const lines = [HEADER, ...items.map((s) =>
+    s.kind === "contact"
+      ? row([s.id, s.kind, s.createdAt, s.name, s.email, s.phone, "", "", s.message, "", s.ip, s.userAgent])
+      : row([s.id, s.kind, s.createdAt, s.name, s.email, s.phone, s.availability, (s.skills ?? []).join("|"), "", s.note ?? "", s.ip, s.userAgent]),
+  )];
+  const body = lines.join("\n") + "\n";
 
   return new Response(body, {
-    status: 200,
     headers: {
-      "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="${filename}"`,
-      "Cache-Control": "no-store",
+      "content-type": "text/csv; charset=utf-8",
+      "content-disposition": `attachment; filename="submissions-${kind}-${Date.now()}.csv"`,
     },
   });
 }

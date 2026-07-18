@@ -1,4 +1,7 @@
 import crypto from "node:crypto";
+
+import { cookies } from "next/headers";
+import { fail } from "./http";
 import { env } from "./env";
 
 /**
@@ -83,3 +86,19 @@ export function safeEqual(a: string, b: string): boolean {
 }
 
 export const SESSION_COOKIE = env.SESSION_COOKIE_NAME;
+
+
+/**
+ * Gatekeeper for /api/admin routes. Returns a 401 Response if the request
+ * lacks a valid session, otherwise null (caller proceeds).
+ *
+ * Lives next to the session helpers because it's part of the same contract:
+ * verify the cookie, fail closed.
+ */
+export function requireAdmin(): Response | null {
+  const token = cookies().get(SESSION_COOKIE)?.value;
+  if (!verifySessionToken(token).ok) {
+    return fail(401, "Not authenticated", "unauthorized");
+  }
+  return null;
+}
