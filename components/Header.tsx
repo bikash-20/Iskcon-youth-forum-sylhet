@@ -44,7 +44,7 @@ export default function Header() {
           <Link href="/" className="group flex items-center gap-3">
             <span
               aria-hidden
-              className="grid h-9 w-9 place-items-center rounded-full bg-maroon-700 text-cream-50 font-serif text-xl leading-none shadow-soft"
+              className="grid h-9 w-9 place-items-center rounded-full bg-maroon-700 text-cream-50 font-serif text-xl leading-none shadow-soft aura-mark transition-transform duration-300 group-hover:scale-105"
             >
               ॐ
             </span>

@@ -200,6 +200,97 @@ body {
   animation: om-pulse 2.2s var(--ease-out-weighted) infinite;
 }
 
+/* ------------------------------------------------------------------
+   Filter pill — sweeping saffron underline that draws in on hover and
+   stays for the active tab. Used by /gallery.
+   ------------------------------------------------------------------ */
+.pill-underline {
+  position: relative;
+  overflow: hidden;
+}
+.pill-underline::after {
+  content: "";
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 6px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0.85;
+}
+.pill-underline:hover::after,
+.pill-underline[aria-selected="true"]::after {
+  transform: scaleX(1);
+}
+
+.pill-underline[aria-selected="true"] {
+  /* keep the saffron underline crisp on the active maroon pill */
+  --tw-bg-opacity: 1;
+}
+
+/* ------------------------------------------------------------------
+   Lightbox entrance — a 240ms scale + fade so opening/closing feels
+   like lifting a plate off the page. Respects reduced motion.
+   ------------------------------------------------------------------ */
+@keyframes lightbox-card-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.lightbox-enter {
+  animation: lightbox-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes lightbox-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.lightbox-card {
+  animation: lightbox-card-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 60ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-enter,
+  .lightbox-card {
+    animation: none;
+  }
+  .pill-underline::after {
+    transition: none;
+  }
+}
+
+/* Sticky filter rail — a single soft hairline shadow once you scroll past */
+.filter-rail-scrolled {
+  box-shadow: 0 1px 0 rgba(122, 29, 29, 0.08), 0 8px 22px -16px rgba(26, 20, 16, 0.35);
+}
+
+/* ------------------------------------------------------------------
+   Aura pulse under the Om mark — slow, almost imperceptible, lifts
+   the brand mark off the header on hover.
+   ------------------------------------------------------------------ */
+@keyframes om-aura {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(122, 29, 29, 0.0);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(122, 29, 29, 0.12);
+  }
+}
+.aura-mark {
+  animation: om-aura 3.6s var(--ease-out-weighted) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .aura-mark { animation: none; }
+}
+
 /* Subtle scrollbar tuned to the maroon palette */
 ::-webkit-scrollbar {
   width: 10px;

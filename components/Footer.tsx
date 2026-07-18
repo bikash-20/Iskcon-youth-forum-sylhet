@@ -9,6 +9,16 @@ const SOCIAL = {
 export default function Footer() {
   return (
     <footer className="mt-24 border-t border-maroon-700/10 bg-cream-100/60">
+      {/* Devanagari watermark band */}
+      <div
+        aria-hidden
+        className="relative overflow-hidden border-b border-maroon-700/10 bg-maroon-700/[0.04] py-3"
+      >
+        <p className="whitespace-nowrap font-deva text-2xl text-maroon-700/30 [word-spacing:1.2em] text-center select-none">
+          हरे कृष्ण हरे कृष्ण कृष्ण कृष्ण हरे हरे हरे राम हरे राम राम राम हरे हरे
+        </p>
+      </div>
+
       <div className="mx-auto max-w-7xl px-5 sm:px-8 py-14">
         <div className="grid gap-10 lg:grid-cols-4">
           <div>
@@ -146,6 +156,9 @@ export default function Footer() {
           </div>
           <p className="font-deva text-base text-maroon-700/80">
             सत्यं शिवं सुन्दरम्
+          </p>
+          <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-ink-800/45">
+            Updated · {new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
           </p>
         </div>
       </div>
