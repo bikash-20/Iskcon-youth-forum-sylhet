@@ -1,0 +1,47 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: deploy-render-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Trigger Render deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trigger Render deploy hook
+        id: deploy
+        # Render Blueprint services expose a deploy hook URL.
+        # Set RENDER_DEPLOY_HOOK as a GitHub Actions secret:
+        #   Dashboard -> repo -> Settings -> Secrets and variables -> Actions
+        # The hook URL is found in Render:
+        #   Dashboard -> iyf-sylhet -> Settings -> Deploy Hook
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          set -euo pipefail
+          if [ -z "${HOOK:-}" ]; then
+            echo "::warning::RENDER_DEPLOY_HOOK secret not set - skipping deploy."
+            echo "Add it in repo Settings then Secrets and variables then Actions."
+            echo "Get the URL from Render Dashboard then iyf-sylhet then Settings then Deploy Hook."
+            exit 0
+          fi
+          echo "Pinging Render deploy hook..."
+          response=$(curl -fsS -X POST "$HOOK")
+          echo "$response"
+          echo "Render is now building. Watch the dashboard for progress."
+        shell: bash
