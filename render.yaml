@@ -1,0 +1,83 @@
+# Render Blueprint
+# https://render.com/docs/blueprint-spec
+#
+# Deploy this repo to Render in one click:
+#   1. Push this file to GitHub
+#   2. In Render dashboard: New → Blueprint → connect this repo
+#   3. Render auto-detects this file, creates the service, and prompts
+#      for the secret env vars (ADMIN_PASSWORD, SESSION_SECRET, etc.)
+#
+# After the first deploy, fill in the missing secret values in the
+# Render dashboard (Environment tab). The PUBLIC_* vars have safe
+# defaults so the app boots even before you customize them.
+
+services:
+  - type: web
+    name: iyf-sylhet
+    runtime: node
+    plan: free
+    region: singapore
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+
+    # Free-tier instances sleep after 15 min of inactivity.
+    # Use UptimeRobot (free) to ping this URL every 5 minutes and keep
+    # the instance warm: https://uptimerobot.com
+    # Sleep latency on cold start is ~30s.
+
+    envVars:
+      # ---- Node ----
+      - key: NODE_VERSION
+        value: 20.14.0
+      - key: NODE_ENV
+        value: production
+
+      # ---- Secrets (set these in the Render dashboard) ----
+      # Generate SESSION_SECRET with:
+      #   node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
+      # Generate ADMIN_PASSWORD with:
+      #   node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+
+      # Resend (https://resend.com → API Keys)
+      - key: RESEND_API_KEY
+        sync: false
+      # MAIL_FROM must use a domain you've verified in Resend.
+      # For sandbox testing, use: ISKCON Youth Forum <onboarding@resend.dev>
+      - key: MAIL_FROM
+        value: ISKCON Youth Forum <onboarding@resend.dev>
+      # Where admin notifications are delivered (your real inbox).
+      - key: ADMIN_EMAIL
+        sync: false
+
+      # Redis (Upstash free tier: https://upstash.com)
+      # Use the rediss:// (TLS) URL — credentials may be embedded.
+      # Free tier: 256 MB, 10K commands/day.
+      - key: REDIS_URL
+        sync: false
+
+      # ---- Public site (safe to ship to the browser) ----
+      - key: PUBLIC_SITE_NAME
+        value: ISKCON Youth Forum, Sylhet
+      # Render sets RENDER_EXTERNAL_URL automatically once the service
+      # has a hostname. You can override with your custom domain.
+      - key: PUBLIC_SITE_URL
+        sync: false
+
+      # ---- Optional tunables (defaults shown) ----
+      - key: SESSION_COOKIE_NAME
+        value: iyf_session
+      - key: SESSION_TTL_SECONDS
+        value: "43200"            # 12 hours
+      - key: SUBMISSION_TTL_SECONDS
+        value: "7776000"          # 90 days
+
+      # Render auto-injects:
+      #   RENDER_EXTERNAL_URL  -> https://iyf-sylhet.onrender.com
+      #   PORT                 -> 10000 (auto-bound by Next.js)
