@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
+import PageTransition from "@/components/PageTransition";
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -49,7 +50,9 @@ export default function RootLayout({
       <body className="grain-page min-h-screen flex flex-col">
         <MotionProvider>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
         </MotionProvider>
       </body>
