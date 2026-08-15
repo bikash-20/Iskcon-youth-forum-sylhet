@@ -1,9 +1,11 @@
+import Reveal from "./Reveal";
 import { VERSE_OF_THE_DAY, THOUGHT_OF_THE_DAY } from "@/lib/content";
 
 export default function VerseAndThought() {
   return (
     <section className="mx-auto mt-20 max-w-6xl px-5 sm:px-8 sm:mt-24">
       <div className="grid gap-6 lg:grid-cols-2">
+        <Reveal>
         <div className="accent-ribbon rounded-2xl border border-maroon-700/10 bg-gradient-to-br from-cream-50 to-cream-100 p-7 shadow-soft sm:p-9">
           <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
             Verse of the day
@@ -23,7 +25,9 @@ export default function VerseAndThought() {
             — {VERSE_OF_THE_DAY.source}
           </p>
         </div>
+        </Reveal>
 
+        <Reveal delay={120}>
         <div className="accent-ribbon rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft sm:p-9">
           <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80 eyebrow-line">
             Thought of the day
@@ -35,6 +39,7 @@ export default function VerseAndThought() {
             — {THOUGHT_OF_THE_DAY.source}
           </p>
         </div>
+        </Reveal>
       </div>
     </section>
   );

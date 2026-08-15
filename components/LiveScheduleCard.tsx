@@ -7,11 +7,11 @@ import {
 } from "@/lib/content";
 import {
   diffMinutes,
-  formatBDClock,
-  formatFuture,
   nowBD,
   todayAtBD,
 } from "@/lib/bdTime";
+import AnimatedClock from "./AnimatedClock";
+import AnimatedCountdown from "./AnimatedCountdown";
 
 function classify(now: Date, slots: DailySlot[]): {
   current: DailySlot | null;
@@ -49,10 +49,9 @@ export default function LiveScheduleCard() {
 
   // Next's countdown uses today's BD time; if next slot is the first slot of
   // tomorrow, treat all of DAILY_PROGRAMME as upcoming.
-  const showCountdown = (slot: DailySlot) => {
+  const countdownMinutes = (slot: DailySlot) => {
     const t = todayAtBD(slot.time);
-    const min = diffMinutes(now, t);
-    return formatFuture(min);
+    return diffMinutes(now, t);
   };
 
   const headerNote = current
@@ -73,7 +72,7 @@ export default function LiveScheduleCard() {
             </p>
             <h2 className="mt-3 font-serif text-3xl sm:text-4xl text-ink-900 tracking-tightish display-tight">
               <span className="text-maroon-700">Bangladesh</span> ·{" "}
-              <span className="tabular-nums">{formatBDClock(now)}</span>
+              <AnimatedClock date={now} className="font-serif text-3xl sm:text-4xl" />
             </h2>
             <p className="mt-2 text-base text-ink-800/80">
               {current
@@ -113,7 +112,7 @@ export default function LiveScheduleCard() {
                       <p className="font-serif text-lg text-ink-900">{s.name}</p>
                       {isNext && (
                         <p className="text-xs text-maroon-700">
-                          {showCountdown(s)}
+                          <AnimatedCountdown minutes={countdownMinutes(s)} />
                         </p>
                       )}
                     </div>
@@ -144,7 +143,7 @@ export default function LiveScheduleCard() {
                       <p className="text-xs text-ink-800/70">{to12(s.time)}</p>
                     </div>
                     <p className="text-sm font-medium text-maroon-700">
-                      {showCountdown(s)}
+                      <AnimatedCountdown minutes={countdownMinutes(s)} />
                     </p>
                   </li>
                 ))}

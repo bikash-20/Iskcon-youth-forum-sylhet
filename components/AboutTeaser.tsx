@@ -1,12 +1,13 @@
 import Link from "next/link";
 import SectionHeading from "./SectionHeading";
+import Reveal from "./Reveal";
 import { DEITIES } from "@/lib/content";
 
 export default function AboutTeaser() {
   return (
     <section className="mx-auto mt-24 max-w-7xl px-5 sm:px-8 sm:mt-28">
       <div className="grid gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-7">
+        <Reveal className="lg:col-span-7">
           <SectionHeading
             eyebrow="About"
             title="Where scripture meets the rhythm of a young life."
@@ -33,9 +34,10 @@ export default function AboutTeaser() {
               More about IYF →
             </Link>
           </div>
-        </div>
+        </Reveal>
 
-        <aside className="lg:col-span-5">
+        <Reveal delay={120} className="lg:col-span-5">
+          <aside>
           <div className="accent-ribbon rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft">
             <p className="font-sans text-[11px] uppercase tracking-[0.22em] text-maroon-700/80">
               The deities
@@ -61,7 +63,8 @@ export default function AboutTeaser() {
               Truth, goodness, beauty — our threefold offering.
             </p>
           </div>
-        </aside>
+          </aside>
+        </Reveal>
       </div>
     </section>
   );

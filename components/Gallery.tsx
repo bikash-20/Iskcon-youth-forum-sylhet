@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { CATALOGUE, Plate, type PlateCategory, type PlateMeta } from "./GalleryPlates";
 import Reveal from "./Reveal";
 
@@ -94,13 +95,21 @@ export default function Gallery() {
                       setActive(f.key);
                       setOpenIndex(null);
                     }}
-                    className={`pill-underline relative rounded-full px-4 py-1.5 font-sans text-xs uppercase tracking-[0.18em] transition-colors duration-300 ${
+                    className={`relative rounded-full px-4 py-1.5 font-sans text-xs uppercase tracking-[0.18em] transition-colors duration-300 ${
                       isActive
-                        ? "bg-maroon-700 text-cream-50 shadow-soft"
+                        ? "text-cream-50"
                         : "text-ink-800/70 hover:text-maroon-700"
                     }`}
                   >
-                    {f.label}
+                    {/* active filter pill slides between tabs via layoutId */}
+                    {isActive && (
+                      <motion.span
+                        layoutId="gallery-filter-pill"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                        className="pointer-events-none absolute inset-0 rounded-full bg-maroon-700 shadow-soft"
+                      />
+                    )}
+                    <span className="relative">{f.label}</span>
                   </button>
                 );
               })}
@@ -145,18 +154,20 @@ export default function Gallery() {
         </div>
       )}
 
-      {/* Lightbox */}
-      {openIndex !== null && items[openIndex] ? (
-        <Lightbox
-          entry={items[openIndex]}
-          index={openIndex}
-          total={items.length}
-          onClose={() => setOpenIndex(null)}
-          onPrev={onPrev}
-          onNext={onNext}
-          closeBtnRef={closeBtnRef}
-        />
-      ) : null}
+      {/* Lightbox — AnimatePresence so it fades/scales in and out */}
+      <AnimatePresence>
+        {openIndex !== null && items[openIndex] ? (
+          <Lightbox
+            entry={items[openIndex]}
+            index={openIndex}
+            total={items.length}
+            onClose={() => setOpenIndex(null)}
+            onPrev={onPrev}
+            onNext={onNext}
+            closeBtnRef={closeBtnRef}
+          />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
@@ -192,14 +203,24 @@ function Lightbox({
       className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-8"
     >
       {/* Backdrop */}
-      <button
+      <motion.button
         aria-label="Close gallery"
         onClick={onClose}
-        className="absolute inset-0 bg-ink-900/70 backdrop-blur-md lightbox-enter"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="absolute inset-0 bg-ink-900/70 backdrop-blur-md"
       />
 
       {/* Card */}
-      <div className="relative z-10 grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl border border-maroon-700/20 bg-cream-50 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] lightbox-card sm:grid-cols-2">
+      <motion.div
+        initial={{ opacity: 0, y: 12, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 8, scale: 0.98 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl border border-maroon-700/20 bg-cream-50 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] sm:grid-cols-2"
+      >
         {/* Plate art */}
         <div className={`relative ${entry.bg}`}>
           <div className="relative m-4 aspect-[4/3] overflow-hidden rounded-[10px] border border-maroon-700/40 bg-cream-50 sm:aspect-square">
@@ -287,7 +308,7 @@ function Lightbox({
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

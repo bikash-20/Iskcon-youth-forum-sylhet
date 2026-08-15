@@ -1,11 +1,13 @@
 import Image from "next/image";
+import Reveal from "./Reveal";
 
 export default function CoordinatorMessage() {
   return (
     <section className="mx-auto mt-24 max-w-7xl px-5 sm:px-8">
       <div className="grid items-stretch gap-10 lg:grid-cols-12">
         {/* Portrait — sticky on large screens so it stays in view while reading */}
-        <aside className="lg:col-span-4">
+        <Reveal className="lg:col-span-4">
+        <aside>
           <div className="lg:sticky lg:top-28">
             <div className="relative overflow-hidden rounded-3xl border border-maroon-700/15 bg-cream-50 shadow-soft">
               <div className="aspect-[3/4] w-full">
@@ -36,9 +38,11 @@ export default function CoordinatorMessage() {
             </div>
           </div>
         </aside>
+        </Reveal>
 
         {/* Letter */}
-        <article className="lg:col-span-8">
+        <Reveal delay={120} className="lg:col-span-8">
+        <article>
           <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
             From the Coordinator
           </p>
@@ -103,6 +107,7 @@ export default function CoordinatorMessage() {
             </p>
           </div>
         </article>
+        </Reveal>
       </div>
     </section>
   );

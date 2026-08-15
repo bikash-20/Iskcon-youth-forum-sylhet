@@ -2,12 +2,26 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+
+const easeDivine = [0.22, 1, 0.36, 1] as const;
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+};
+
+const rise = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: easeDivine } },
+};
 
 export default function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(true);
   const [videoReady, setVideoReady] = useState(false);
+  const prefersReduced = useReducedMotion();
 
   useEffect(() => {
     const v = videoRef.current;
@@ -80,25 +94,39 @@ export default function HeroVideo() {
       </div>
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-20 pb-28 sm:pt-28 sm:pb-40 lg:pt-36 lg:pb-52">
-        <div className="max-w-3xl">
-          <p className="inline-flex items-center gap-2 rounded-full border border-cream-50/20 bg-cream-50/5 px-3 py-1 text-xs uppercase tracking-[0.22em] text-cream-50/80 backdrop-blur-sm">
+        <motion.div
+          className="max-w-3xl"
+          variants={stagger}
+          initial={prefersReduced ? false : "hidden"}
+          animate="show"
+        >
+          <motion.p
+            variants={rise}
+            className="inline-flex items-center gap-2 rounded-full border border-cream-50/20 bg-cream-50/5 px-3 py-1 text-xs uppercase tracking-[0.22em] text-cream-50/80 backdrop-blur-sm"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-saffron-300" />
             Sri Sri Radha Madhava Mandir · Jugaltila
-          </p>
+          </motion.p>
 
-          <h1 className="mt-6 font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.02] text-cream-50 tracking-tightish display-tight">
+          <motion.h1
+            variants={rise}
+            className="mt-6 font-serif text-5xl sm:text-6xl lg:text-7xl leading-[1.02] text-cream-50 tracking-tightish display-tight"
+          >
             A quieter path
             <br />
             for the next generation.
-          </h1>
+          </motion.h1>
 
-          <p className="mt-6 max-w-xl font-serif text-lg sm:text-xl leading-relaxed text-cream-50/85 text-wrap: pretty">
+          <motion.p
+            variants={rise}
+            className="mt-6 max-w-xl font-serif text-lg sm:text-xl leading-relaxed text-cream-50/85 text-wrap: pretty"
+          >
             The ISKCON Youth Forum, Sylhet — a circle of students and young
             professionals reading scripture, singing kīrtan, and learning to
             live with intention.
-          </p>
+          </motion.p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+          <motion.div variants={rise} className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               href="/events"
               className="focus-saffron group inline-flex items-center gap-2 rounded-full bg-saffron-500 px-6 py-3 text-sm font-medium text-ink-900 shadow-soft transition-all hover:bg-saffron-400"
@@ -114,9 +142,12 @@ export default function HeroVideo() {
             >
               Daily Schedule
             </Link>
-          </div>
+          </motion.div>
 
-          <div className="mt-12 flex items-center gap-4 text-cream-50/70">
+          <motion.div
+            variants={rise}
+            className="mt-12 flex items-center gap-4 text-cream-50/70"
+          >
             <button
               onClick={() => {
                 const v = videoRef.current;
@@ -166,8 +197,8 @@ export default function HeroVideo() {
             <span className="font-deva text-2xl text-saffron-300/90">
               हरे कृष्ण हरे कृष्ण
             </span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Bottom fade into page content */}

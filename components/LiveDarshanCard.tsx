@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PulseRings from "./PulseRings";
 
 export default function LiveDarshanCard() {
   return (
@@ -41,8 +42,11 @@ export default function LiveDarshanCard() {
           <div className="aspect-video w-full overflow-hidden rounded-2xl border border-cream-50/20 bg-black shadow-soft">
             {/* Lightweight placeholder player — real embeds will be wired once the IYF channel is confirmed */}
             <div className="flex h-full w-full flex-col items-center justify-center gap-3 text-center">
-              <div className="grid h-14 w-14 place-items-center rounded-full bg-cream-50/10 backdrop-blur-sm">
-                <span className="ml-1 inline-block h-0 w-0 border-y-[10px] border-l-[16px] border-y-transparent border-l-cream-50" />
+              <div className="relative grid h-14 w-14 place-items-center">
+                <PulseRings />
+                <div className="relative grid h-14 w-14 place-items-center rounded-full bg-cream-50/10 backdrop-blur-sm">
+                  <span className="ml-1 inline-block h-0 w-0 border-y-[10px] border-l-[16px] border-y-transparent border-l-cream-50" />
+                </div>
               </div>
               <p className="font-serif text-cream-50">Live darshan</p>
               <p className="px-4 text-xs text-cream-50/60">

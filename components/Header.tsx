@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -69,13 +70,22 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`glass-pill focus-saffron rounded-full px-3.5 py-1.5 text-sm font-medium tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft ${
+                  className={`glass-pill focus-saffron relative rounded-full px-3.5 py-1.5 text-sm font-medium tracking-wide transition-colors duration-200 ${
                     active
-                      ? "is-active"
+                      ? "text-cream-50"
                       : "text-ink-800/85 hover:text-maroon-700"
                   }`}
                 >
-                  {item.label}
+                  {/* v1.1: active link gets a maroon pill that slides
+                      between items via framer-motion's shared layoutId. */}
+                  {active && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      className="pointer-events-none absolute inset-0 rounded-full bg-maroon-700 shadow-soft"
+                    />
+                  )}
+                  <span className="relative">{item.label}</span>
                 </Link>
               );
             })}
@@ -114,43 +124,63 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <div
-        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ${
-          open ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="mx-auto max-w-7xl px-5 pb-6">
-          <div className="glass rounded-2xl p-2">
-            {NAV.map((item) => {
-              const active =
-                item.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
-                    active
-                      ? "bg-maroon-700/85 text-cream-50"
-                      : "text-ink-800/85 hover:bg-white/40 hover:text-maroon-700"
-                  }`}
+      {/* Mobile menu — AnimatePresence so it opens/closes with a
+          fade + slide rather than a max-height snap. */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:hidden overflow-hidden"
+          >
+            <div className="mx-auto max-w-7xl px-5 pb-6">
+              <div className="glass rounded-2xl p-2">
+                {NAV.map((item, i) => {
+                  const active =
+                    item.href === "/"
+                      ? pathname === "/"
+                      : pathname.startsWith(item.href);
+                  return (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.04 * i, duration: 0.25 }}
+                    >
+                      <Link
+                        href={item.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
+                          active
+                            ? "bg-maroon-700/85 text-cream-50"
+                            : "text-ink-800/85 hover:bg-white/40 hover:text-maroon-700"
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+                <motion.div
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.04 * NAV.length, duration: 0.25 }}
                 >
-                  {item.label}
-                </Link>
-              );
-            })}
-            <Link
-              href="/contact#volunteer"
-              className="glass-pill mt-2 block rounded-xl px-4 py-3 text-center font-medium text-maroon-800 hover:text-maroon-900"
-            >
-              Volunteer with us
-            </Link>
-          </div>
-        </div>
-      </div>
+                  <Link
+                    href="/contact#volunteer"
+                    className="glass-pill mt-2 block rounded-xl px-4 py-3 text-center font-medium text-maroon-800 hover:text-maroon-900"
+                  >
+                    Volunteer with us
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Reveal from "./Reveal";
 
 const SOCIAL = {
   facebook: "https://www.facebook.com/iyfsyl",
@@ -21,6 +22,7 @@ export default function Footer() {
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8 py-14">
         <div className="grid gap-10 lg:grid-cols-4">
+          <Reveal>
           <div>
             <div className="flex items-center gap-3">
               <span
@@ -41,7 +43,9 @@ export default function Footer() {
               हरे कृष्ण हरे कृष्ण
             </p>
           </div>
+          </Reveal>
 
+          <Reveal delay={80}>
           <div>
             <h4 className="font-serif text-lg text-ink-900">Visit</h4>
             <address className="not-italic mt-3 text-sm leading-relaxed text-ink-800/80">
@@ -67,7 +71,9 @@ export default function Footer() {
               +880 1718-781144
             </a>
           </div>
+          </Reveal>
 
+          <Reveal delay={160}>
           <div>
             <h4 className="font-serif text-lg text-ink-900">Explore</h4>
             <ul className="mt-3 space-y-2 text-sm">
@@ -90,7 +96,9 @@ export default function Footer() {
               ))}
             </ul>
           </div>
+          </Reveal>
 
+          <Reveal delay={240}>
           <div>
             <h4 className="font-serif text-lg text-ink-900">Follow</h4>
             <p className="mt-3 text-sm text-ink-800/80">
@@ -123,6 +131,7 @@ export default function Footer() {
               </a>
             </div>
           </div>
+          </Reveal>
         </div>
 
         <div className="hairline my-10" />

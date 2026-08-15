@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter, Tiro_Devanagari_Sanskrit } from "next/font/g
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MotionProvider from "@/components/MotionProvider";
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -46,9 +47,11 @@ export default function RootLayout({
       className={`${serif.variable} ${sans.variable} ${deva.variable}`}
     >
       <body className="grain-page min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <MotionProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ import {
   type FestivalKind,
 } from "@/lib/content";
 import { countdownParts, groupByMonth, nowBD } from "@/lib/bdTime";
+import AnimatedNumber from "@/components/AnimatedNumber";
 
 const KIND_LABEL: Record<FestivalKind, string> = {
   single: "Single day",
@@ -191,12 +192,12 @@ function UpcomingFestival() {
 }
 
 function Counter({ label, value }: { label: string; value: number }) {
-  const padded = value.toString().padStart(2, "0");
   return (
     <div className="rounded-2xl border border-cream-50/15 bg-cream-50/5 p-4 text-center backdrop-blur-sm">
-      <p className="font-serif text-3xl sm:text-4xl tabular-nums text-cream-50 sm:text-5xl">
-        {padded}
-      </p>
+      <AnimatedNumber
+        value={value}
+        className="font-serif text-3xl sm:text-4xl sm:text-5xl tabular-nums text-cream-50"
+      />
       <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-saffron-200">
         {label}
       </p>
