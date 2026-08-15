@@ -1,10 +1,12 @@
 import Link from "next/link";
 import PulseRings from "./PulseRings";
+import MotionCard from "./MotionCard";
 
 export default function LiveDarshanCard() {
   return (
     <section className="mx-auto mt-20 max-w-7xl px-5 sm:px-8 sm:mt-24">
-      <div className="accent-ribbon grid gap-6 rounded-3xl border border-maroon-700/10 bg-gradient-to-br from-maroon-700 to-maroon-800 p-8 sm:p-12 lg:grid-cols-2 lg:gap-10 lg:p-16 shadow-soft">
+      <MotionCard>
+      <div className="accent-ribbon grid h-full gap-6 rounded-3xl border border-maroon-700/10 bg-gradient-to-br from-maroon-700 to-maroon-800 p-8 sm:p-12 lg:grid-cols-2 lg:gap-10 lg:p-16 shadow-soft">
         <div className="flex flex-col justify-center">
           <p className="text-xs uppercase tracking-[0.22em] text-saffron-200 eyebrow-line">
             Sandhyā Arati · Kīrtan
@@ -68,6 +70,7 @@ export default function LiveDarshanCard() {
           </p>
         </div>
       </div>
+      </MotionCard>
     </section>
   );
 }

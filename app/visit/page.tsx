@@ -1,3 +1,5 @@
+import MotionCard from "@/components/MotionCard";
+
 export const metadata = {
   title: "Visit Us · IYF Sylhet",
   description: "How to find Sri Sri Radha Madhava Mandir in Jugaltila, Sylhet.",
@@ -24,8 +26,8 @@ export default function VisitPage() {
 
       <div className="mx-auto max-w-5xl px-5 pb-24">
         <div className="grid gap-8 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <div className="overflow-hidden rounded-2xl border border-maroon-700/10 bg-cream-50 shadow-soft">
+          <MotionCard className="lg:col-span-3">
+            <div className="h-full overflow-hidden rounded-2xl border border-maroon-700/10 bg-cream-50 shadow-soft">
               <iframe
                 title="Sri Sri Radha Madhava Mandir, Jugaltila, Sylhet"
                 src={MAP_EMBED}
@@ -34,9 +36,9 @@ export default function VisitPage() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
-          </div>
-          <div className="lg:col-span-2">
-            <div className="rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft">
+          </MotionCard>
+          <MotionCard delay={0.1} className="lg:col-span-2">
+            <div className="h-full rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft">
               <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
                 Address
               </p>
@@ -82,7 +84,7 @@ export default function VisitPage() {
                 <li>· Bus: any Kajalshah-bound service, alight at the college gate.</li>
               </ul>
             </div>
-          </div>
+            </MotionCard>
         </div>
       </div>
     </article>

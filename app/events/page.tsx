@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MotionCard from "@/components/MotionCard";
 import { UPCOMING_EVENTS } from "@/lib/content";
 
 export const metadata = {
@@ -42,11 +43,16 @@ export default function EventsPage() {
 
       <div className="mx-auto max-w-4xl px-5 pb-24">
         <ul className="grid gap-5">
-          {UPCOMING_EVENTS.map((e) => (
-            <li
+          {UPCOMING_EVENTS.map((e, i) => (
+            <MotionCard
               key={e.slug}
+              as="li"
+              delay={i * 0.07}
               id={e.slug}
-              className={`rounded-2xl border bg-cream-50 p-7 shadow-soft sm:p-8 ${
+              className="h-full"
+            >
+            <div
+              className={`h-full rounded-2xl border bg-cream-50 p-7 shadow-soft sm:p-8 ${
                 e.isFeatured
                   ? "border-maroon-700/40"
                   : "border-maroon-700/10"
@@ -89,7 +95,8 @@ export default function EventsPage() {
                   </Link>
                 )}
               </div>
-            </li>
+            </div>
+            </MotionCard>
           ))}
         </ul>
       </div>

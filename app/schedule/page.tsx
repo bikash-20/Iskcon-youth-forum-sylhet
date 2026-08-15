@@ -1,6 +1,7 @@
 import LiveScheduleCard from "@/components/LiveScheduleCard";
 import VerseAndThought from "@/components/VerseAndThought";
 import FestivalCalendar from "@/components/FestivalCalendar";
+import MotionCard from "@/components/MotionCard";
 import { DAILY_PROGRAMME } from "@/lib/content";
 
 export const metadata = {
@@ -37,11 +38,16 @@ function FullDayTimeline() {
   return (
     <section className="mx-auto max-w-3xl px-5 pb-8">
       <ol className="relative space-y-6 border-l border-maroon-700/15 pl-7">
-        {DAILY_PROGRAMME.map((p) => {
+        {DAILY_PROGRAMME.map((p, i) => {
           const isCloses = p.kind === "closes";
           const isOpens = p.kind === "opens";
           return (
-            <li key={`${p.time}-${p.name}`} className="relative">
+            <MotionCard
+              key={`${p.time}-${p.name}`}
+              as="li"
+              delay={i * 0.06}
+              className="relative"
+            >
               <span
                 aria-hidden
                 className={`absolute -left-[33px] top-1.5 grid h-4 w-4 place-items-center rounded-full ring-4 ring-cream-50 ${
@@ -65,7 +71,7 @@ function FullDayTimeline() {
               <p className="mt-2 text-base leading-relaxed text-ink-800/85">
                 {p.description}
               </p>
-            </li>
+            </MotionCard>
           );
         })}
       </ol>

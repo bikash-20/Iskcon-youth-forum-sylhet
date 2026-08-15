@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 /**
  * Each plate is a "devotional museum plate" — parchment-coloured rectangle
  * with a maroon double-line frame, plate number top-right, title and
@@ -44,7 +46,7 @@ export function Plate({ meta, bgClass, onClick, selected }: PlateProps) {
   const Art = entry?.art;
 
   return (
-    <figure
+    <motion.figure
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
@@ -60,7 +62,10 @@ export function Plate({ meta, bgClass, onClick, selected }: PlateProps) {
       }
       aria-label={`Open ${meta.title}`}
       data-selected={selected ? "true" : undefined}
-      className={`group relative overflow-hidden rounded-[18px] border border-maroon-700/15 bg-cream-50 shadow-soft outline-none transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_-22px_rgba(122,29,29,0.45)] focus-visible:ring-2 focus-visible:ring-saffron-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-50 ${bgClass} ${
+      whileHover={{ y: -6 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{ type: "spring", stiffness: 300, damping: 24 }}
+      className={`group relative overflow-hidden rounded-[18px] border border-maroon-700/15 bg-cream-50 shadow-soft outline-none focus-visible:ring-2 focus-visible:ring-saffron-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-50 ${bgClass} ${
         selected ? "ring-2 ring-saffron-400 ring-offset-2 ring-offset-cream-50" : ""
       }`}
     >
@@ -107,7 +112,7 @@ export function Plate({ meta, bgClass, onClick, selected }: PlateProps) {
         aria-hidden
         className="pointer-events-none absolute inset-x-5 bottom-3 h-px origin-left scale-x-0 bg-gradient-to-r from-saffron-400 via-maroon-700/40 to-transparent transition-transform duration-500 ease-out group-hover:scale-x-100"
       />
-    </figure>
+    </motion.figure>
   );
 }
 

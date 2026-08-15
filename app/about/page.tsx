@@ -1,4 +1,5 @@
 import SectionHeading from "@/components/SectionHeading";
+import MotionCard from "@/components/MotionCard";
 import { DEITIES } from "@/lib/content";
 
 export const metadata = {
@@ -81,14 +82,13 @@ export default function AboutPage() {
           title="The deities we serve"
         />
         <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-          {DEITIES.map((d) => (
-            <li
-              key={d.name}
-              className="rounded-xl border border-maroon-700/10 bg-cream-50 p-4 shadow-soft"
-            >
-              <p className="font-deva text-lg text-ink-900">{d.name}</p>
-              <p className="mt-1 text-sm text-ink-800/70">{d.note}</p>
-            </li>
+          {DEITIES.map((d, i) => (
+            <MotionCard key={d.name} as="li" delay={i * 0.08} className="h-full">
+              <div className="h-full rounded-xl border border-maroon-700/10 bg-cream-50 p-4 shadow-soft">
+                <p className="font-deva text-lg text-ink-900">{d.name}</p>
+                <p className="mt-1 text-sm text-ink-800/70">{d.note}</p>
+              </div>
+            </MotionCard>
           ))}
         </ul>
       </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SectionHeading from "./SectionHeading";
-import Reveal from "./Reveal";
+import MotionCard from "./MotionCard";
 import { UPCOMING_EVENTS } from "@/lib/content";
 
 function formatDate(iso: string) {
@@ -45,7 +45,7 @@ export default function UpcomingEvents() {
           {UPCOMING_EVENTS.map((e, i) => {
             const isRecurring = e.start.startsWith("Every");
             return (
-              <Reveal key={e.slug} delay={i * 100} y={18}>
+              <MotionCard key={e.slug} delay={i * 0.1} className="h-full">
                 <Link
                   href={`/events/${e.slug}`}
                   className={`card-elevate accent-ribbon group relative block h-full overflow-hidden rounded-2xl border bg-cream-50 p-7 shadow-soft ${
@@ -76,7 +76,7 @@ export default function UpcomingEvents() {
                     </span>
                   </span>
                 </Link>
-              </Reveal>
+              </MotionCard>
             );
           })}
         </div>

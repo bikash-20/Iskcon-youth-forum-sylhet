@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import MotionCard from "@/components/MotionCard";
 import { UPCOMING_EVENTS } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -58,12 +59,14 @@ export default function EventDetailPage({
         <p className="dropcap">{event.description}</p>
 
         {event.registration && (
-          <Link
-            href={event.registration}
-            className="mt-10 inline-flex items-center gap-2 rounded-full bg-maroon-700 px-5 py-3 text-sm font-medium text-cream-50 hover:bg-maroon-800"
-          >
-            Register your attendance →
-          </Link>
+          <MotionCard className="mt-10">
+            <Link
+              href={event.registration}
+              className="inline-flex items-center gap-2 rounded-full bg-maroon-700 px-5 py-3 text-sm font-medium text-cream-50 transition-colors hover:bg-maroon-800"
+            >
+              Register your attendance →
+            </Link>
+          </MotionCard>
         )}
 
         <div className="hairline my-12" />

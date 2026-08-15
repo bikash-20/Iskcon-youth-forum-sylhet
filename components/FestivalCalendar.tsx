@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
   FESTIVALS,
   FEATURED_FESTIVAL,
@@ -53,8 +54,8 @@ export default function FestivalCalendar() {
                 {headingFor(g.month)}
               </h4>
               <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {g.items.map((f) => (
-                  <FestivalCard key={f.slug} f={f} />
+                {g.items.map((f, i) => (
+                  <FestivalCard key={f.slug} f={f} index={i} />
                 ))}
               </div>
             </div>
@@ -82,9 +83,17 @@ function headingFor(month: string) {
   return "The season";
 }
 
-function FestivalCard({ f }: { f: Festival }) {
+function FestivalCard({ f, index = 0 }: { f: Festival; index?: number }) {
   return (
-    <article className="card-elevate accent-ribbon group h-full rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft">
+    <motion.article
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.99 }}
+      transition={{ type: "spring", stiffness: 320, damping: 26, delay: index * 0.06 }}
+      className="card-elevate accent-ribbon group h-full rounded-2xl border border-maroon-700/10 bg-cream-50 p-6 shadow-soft"
+    >
       <div className="flex items-start justify-between gap-3">
         <span
           className={`rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider ${KIND_TONE[f.kind]}`}
@@ -107,12 +116,12 @@ function FestivalCard({ f }: { f: Festival }) {
               className="flex items-start gap-2 text-xs text-maroon-700/90"
             >
               <span aria-hidden className="mt-1 inline-block h-1 w-1 rounded-full bg-maroon-700/70" />
-              <span>{t}</span>
+              <span>{t}              </span>
             </li>
           ))}
         </ul>
       )}
-    </article>
+    </motion.article>
   );
 }
 

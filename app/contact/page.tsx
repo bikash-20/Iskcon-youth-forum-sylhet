@@ -1,6 +1,7 @@
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
 import VolunteerForm from "@/components/VolunteerForm";
+import MotionCard from "@/components/MotionCard";
 
 export const metadata = {
   title: "Contact & Volunteer · IYF Sylhet",
@@ -29,7 +30,8 @@ export default function ContactPage() {
             <ContactForm />
           </div>
           <aside className="lg:col-span-2">
-            <div className="rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft">
+            <MotionCard className="h-full">
+            <div className="h-full rounded-2xl border border-maroon-700/10 bg-cream-50 p-7 shadow-soft">
               <SectionHeading
                 eyebrow="Direct"
                 title="Other ways to reach us"
@@ -79,6 +81,7 @@ export default function ContactPage() {
                 Remembering Krishna, I walk forward.
               </p>
             </div>
+            </MotionCard>
           </aside>
         </div>
 

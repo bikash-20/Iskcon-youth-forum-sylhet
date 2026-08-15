@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -200,21 +201,31 @@ export default function VolunteerForm() {
       </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-4">
-        <button
+        <motion.button
           type="submit"
           disabled={status === "submitting"}
-          className="inline-flex items-center gap-2 rounded-full bg-maroon-700 px-6 py-3 text-sm font-medium text-cream-50 hover:bg-maroon-800 disabled:opacity-60"
+          whileHover={status === "submitting" ? undefined : { y: -2 }}
+          whileTap={status === "submitting" ? undefined : { scale: 0.97 }}
+          transition={{ type: "spring", stiffness: 380, damping: 26 }}
+          className="inline-flex items-center gap-2 rounded-full bg-maroon-700 px-6 py-3 text-sm font-medium text-cream-50 transition-colors hover:bg-maroon-800 disabled:opacity-60"
         >
           {status === "submitting" ? "Sending…" : "Sign me up"}
-        </button>
-        {message && (
-          <p
-            className="text-sm text-maroon-700"
-            role={status === "error" ? "alert" : "status"}
-          >
-            {message}
-          </p>
-        )}
+        </motion.button>
+        <AnimatePresence mode="wait">
+          {message && (
+            <motion.p
+              key={message}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="text-sm text-maroon-700"
+              role={status === "error" ? "alert" : "status"}
+            >
+              {message}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
     </form>
   );
