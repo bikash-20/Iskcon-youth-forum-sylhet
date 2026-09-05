@@ -24,8 +24,13 @@ import { scrollToId, splitHash } from "@/lib/scroll";
  * - `syncTouch: false`      → keep native iOS momentum; sync mode fights it.
  * - `autoResize: true`      → re-measure when the live BD clock or festival
  *                              countdown reflows layout.
- * - `autoRaf: false`        → `<ReactLenis root>` drives RAF itself;
- *                              setting `autoRaf: true` would run two loops.
+ * - `autoRaf: true`         → Lenis self-drives its RAF loop. The
+ *                              `<ReactLenis>` wrapper does NOT start a RAF
+ *                              for the `root` mode (it only relays scroll
+ *                              events) — if we leave `autoRaf: false`, the
+ *                              lerp loop never runs and the page appears
+ *                              "stuck" because targetScroll never reaches
+ *                              window.scrollY.
  * - `respectReducedMotion: true` → Lenis auto-disables smoothing when the
  *                              user requests reduced motion (forces lerp=1
  *                              so scroll tracks input 1:1). Default in
@@ -44,7 +49,7 @@ const LENIS_OPTIONS: LenisOptions = {
   smoothWheel: true,
   syncTouch: false,
   autoResize: true,
-  autoRaf: false,
+  autoRaf: true,
   respectReducedMotion: true,
   anchors: false,
 };

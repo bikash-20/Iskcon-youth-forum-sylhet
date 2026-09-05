@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter, Tiro_Devanagari_Sanskrit } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
