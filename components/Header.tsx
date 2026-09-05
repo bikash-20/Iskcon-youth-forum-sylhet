@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useLenis } from "lenis/react";
+
+import { scrollToTop } from "@/lib/scroll";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -18,6 +21,7 @@ const NAV = [
 
 export default function Header() {
   const pathname = usePathname();
+  const lenis = useLenis();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -31,6 +35,20 @@ export default function Header() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // Reset scroll position when the route changes. We fire this *before*
+  // PageTransition's exit animation has fully finished — by the time the
+  // next route mounts, the page is already at the top. We use `immediate:
+  // true` because we're calling this *on navigation*, not on a user gesture,
+  // and we don't want a long animated scroll fighting the cross-fade.
+  //
+  // If the route contains a hash (e.g. `/contact#volunteer`), the consumer
+  // page installs its own `useScrollToHash` effect that re-targets the
+  // scroll to the element after mount. Without that, we'd land at the top
+  // — still a fine default, never a broken state.
+  useEffect(() => {
+    scrollToTop(lenis ?? null, { immediate: true });
+  }, [pathname, lenis]);
 
   return (
     <header

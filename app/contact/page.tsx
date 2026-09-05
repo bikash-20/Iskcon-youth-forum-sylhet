@@ -8,8 +8,15 @@ export const metadata = {
   description: "Reach the IYF team or sign up as a volunteer.",
 };
 
+// Run cross-route hash scrolling (e.g. /contact#volunteer from the header).
+// Page is a Server Component for metadata; this tiny client island runs after
+// mount and consumes the Lenis context via `useLenis()` inside the hook.
+import HashScrollIsland from "./HashScrollIsland";
+
 export default function ContactPage() {
   return (
+    <>
+      <HashScrollIsland />
     <article className="paper">
       <div className="mx-auto max-w-4xl px-5 pt-20 pb-10 sm:pt-28">
         <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
@@ -97,5 +104,6 @@ export default function ContactPage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

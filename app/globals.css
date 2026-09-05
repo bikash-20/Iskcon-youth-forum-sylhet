@@ -12,6 +12,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Lenis hosts itself on <html>. Letting the document grow to its
+     content height is the contract Lenis expects. */
+  height: auto;
 }
 
 body {
@@ -27,6 +30,11 @@ body {
     transparent 60%
   );
   background-attachment: fixed;
+  /* Lenis translates content vertically during scroll. This guard prevents
+     any horizontal bleed (e.g. from a wide SVG plate) from creating a
+     second horizontal scroll axis the smooth-scroll bar would jitter on. */
+  overflow-x: clip;
+  height: auto;
 }
 
 /* A subtle paper grain used on hero and section backgrounds */
