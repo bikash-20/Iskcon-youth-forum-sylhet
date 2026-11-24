@@ -85,6 +85,9 @@ export const metadata: Metadata = {
     images: ["/opengraph-image"],
     creator: "@iyfsyl",
   },
+  verification: {
+    google: "googlea35c1cc6d6ffd528",
+  },
   robots: {
     index: true,
     follow: true,
