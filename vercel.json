@@ -1,14 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "installCommand": "npm ci",
-  "devCommand": "npm run dev",
-  "outputDirectory": ".next",
-  "regions": ["sin1"],
+  "installCommand": "npm install",
   "github": {
-    "silent": true,
+    "silent": false,
     "autoAlias": true
   },
   "headers": [
@@ -30,6 +26,5 @@
         }
       ]
     }
-  ],
-  "crons": []
+  ]
 }
