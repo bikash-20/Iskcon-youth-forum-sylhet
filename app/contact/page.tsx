@@ -1,11 +1,31 @@
+import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
 import VolunteerForm from "@/components/VolunteerForm";
 import MotionCard from "@/components/MotionCard";
 
-export const metadata = {
-  title: "Contact & Volunteer · IYF Sylhet",
-  description: "Reach the IYF team or sign up as a volunteer.",
+export const metadata: Metadata = {
+  title: "Contact & Volunteer | ISKCON Youth Forum Sylhet (IYF Sylhet)",
+  description:
+    "Get in touch with ISKCON Youth Forum Sylhet (IYF Sylhet). Sign up as a volunteer, register for courses, or connect with Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila.",
+  keywords: [
+    "contact iskcon youth forum sylhet",
+    "iyf sylhet phone number",
+    "iskcon sylhet volunteer",
+    "join iskcon youth forum sylhet",
+    "sylhet iskcon contact",
+    "iskcon youth forum whatsapp",
+    "iskcon sylhet email",
+  ],
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact & Volunteer | ISKCON Youth Forum Sylhet",
+    description:
+      "Connect with ISKCON Youth Forum Sylhet for youth courses, seva opportunities, and volunteering.",
+    url: "/contact",
+  },
 };
 
 // Run cross-route hash scrolling (e.g. /contact#volunteer from the header).

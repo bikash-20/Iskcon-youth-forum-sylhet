@@ -134,6 +134,27 @@ export default function Footer() {
           </Reveal>
         </div>
 
+        {/* Localized SEO Discovery Block */}
+        <div className="mt-10 rounded-2xl border border-maroon-700/10 bg-cream-50/70 p-5 text-xs text-ink-800/80">
+          <p className="font-serif text-sm font-semibold text-maroon-700">
+            ISKCON Youth Forum Sylhet (IYF Sylhet) · Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir)
+          </p>
+          <p className="mt-1.5 leading-relaxed">
+            Jugaltila, Kajalshah, Sylhet 3140, Bangladesh (Opposite MAG Osmani Medical College Hospital, Gate No. 1).
+            Dedicated to youth empowerment, Bhagavad-gita study, daily darshan & arati, kirtan club, and value education at ISKCON Sylhet.
+          </p>
+          <div className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1 font-sans text-[11px] text-maroon-700/70">
+            <span>#iskconyouthforumsylhet</span>
+            <span>#iyfsylhet</span>
+            <span>#sylhetiskconmondir</span>
+            <span>#iskconsylhet</span>
+            <span>#radhamadhavasylhet</span>
+            <span>#jugaltilaiskcon</span>
+            <span>#ইস্কনযুবফোরামসিলেট</span>
+            <span>#সিলেটইস্কনমন্দির</span>
+          </div>
+        </div>
+
         <div className="hairline my-10" />
 
         <div className="flex flex-col items-start justify-between gap-3 text-xs text-ink-800/60 sm:flex-row sm:items-center">

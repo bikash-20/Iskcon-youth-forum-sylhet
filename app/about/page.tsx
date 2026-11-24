@@ -1,11 +1,30 @@
+import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import MotionCard from "@/components/MotionCard";
 import { DEITIES } from "@/lib/content";
 
-export const metadata = {
-  title: "About IYF · ISKCON Youth Forum, Sylhet",
+export const metadata: Metadata = {
+  title: "About ISKCON Youth Forum Sylhet | IYF Sylhet · Jugaltila Mandir",
   description:
-    "The youth wing of ISKCON Sylhet — who we are, what we do, and where we gather.",
+    "Learn about ISKCON Youth Forum Sylhet (IYF Sylhet) — the youth wing of ISKCON Sylhet at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila.",
+  keywords: [
+    "about iskcon youth forum sylhet",
+    "iyf sylhet about",
+    "sylhet iskcon mondir history",
+    "iskcon sylhet deities",
+    "radha madhava mandir jugaltila",
+    "prabhupada sylhet lineage",
+    "youth spirituality sylhet",
+  ],
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About ISKCON Youth Forum Sylhet | IYF Sylhet · Jugaltila Mandir",
+    description:
+      "The youth wing of ISKCON Sylhet at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila. Who we are, our lineage, and the deities we serve.",
+    url: "/about",
+  },
 };
 
 export default function AboutPage() {
@@ -22,16 +41,15 @@ export default function AboutPage() {
 
       <div className="mx-auto max-w-3xl px-5 pb-24 text-lg leading-relaxed text-ink-800/90">
         <p className="dropcap">
-          IYF Sylhet is the youth wing of ISKCON Sylhet. We are students,
-          young professionals, and a few people who don't quite fit any
-          category — connected by the thought that life can be simpler,
-          slower, and more meaningful than the world suggests.
+          <strong>ISKCON Youth Forum Sylhet (IYF Sylhet)</strong> is the youth wing of ISKCON Sylhet. We are students,
+          young professionals, and seekers from across Sylhet — connected by the thought that life can be simpler,
+          slower, and more meaningful through devotional culture and timeless Vedic wisdom.
         </p>
 
         <p className="mt-6">
-          We meet at Sri Sri Radha Madhava Mandir, Jugaltila — opposite
-          Osmani Medical College, Gate No. 1. We come for kirtan, we stay for
-          classes, and we leave a little softer than we arrived.
+          We gather at <strong>Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir)</strong> in Jugaltila, Kajalshah — opposite
+          MAG Osmani Medical College Hospital, Gate No. 1. We come for uplifting kirtan, we stay for
+          Bhagavad-gita classes and satsanga, and we leave a little softer than we arrived.
         </p>
 
         <h2 className="mt-12 font-serif text-3xl text-ink-900">What we do</h2>

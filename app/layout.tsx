@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
 import LenisProvider from "@/components/LenisProvider";
 import PageTransition from "@/components/PageTransition";
+import { OrganizationSchema } from "@/components/JsonLd";
+import { SITE_URL, PRIMARY_KEYWORDS } from "@/lib/seo";
 
 const serif = Cormorant_Garamond({
   subsets: ["latin"],
@@ -30,9 +32,77 @@ const deva = Tiro_Devanagari_Sanskrit({
 });
 
 export const metadata: Metadata = {
-  title: "ISKCON Youth Forum, Sylhet",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default:
+      "ISKCON Youth Forum Sylhet | IYF Sylhet · Sri Sri Radha Madhava Mandir",
+    template: "%s | ISKCON Youth Forum Sylhet (IYF Sylhet)",
+  },
   description:
-    "The youth wing of ISKCON Sylhet — nourishing young lives through scripture, devotion, kirtan, and practical wisdom at Sri Sri Radha Madhava Mandir.",
+    "Official website of ISKCON Youth Forum Sylhet (IYF Sylhet) at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila. Daily darshan timings, aarti schedule, youth programs, Gita classes, kirtan, and festivals.",
+  keywords: PRIMARY_KEYWORDS,
+  authors: [
+    { name: "ISKCON Youth Forum Sylhet", url: SITE_URL },
+    { name: "Devarshi Srivas Dasa" },
+  ],
+  creator: "ISKCON Youth Forum Sylhet (IYF Sylhet)",
+  publisher: "ISKCON Sylhet · Sri Sri Radha Madhava Mandir",
+  applicationName: "IYF Sylhet",
+  category: "Religion & Spirituality / Youth Organization",
+  classification:
+    "Hindu Temple, Youth Organization, Spiritual Center, Vedic Culture",
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-BD": "/",
+      "bn-BD": "/",
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+    siteName: "ISKCON Youth Forum Sylhet (IYF Sylhet)",
+    title:
+      "ISKCON Youth Forum Sylhet | IYF Sylhet · Sri Sri Radha Madhava Mandir",
+    description:
+      "The youth wing of ISKCON Sylhet at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila. Nourishing young lives through scripture, devotion, kirtan, and practical Vedic wisdom.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "ISKCON Youth Forum Sylhet - Sri Sri Radha Madhava Mandir Jugaltila",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "ISKCON Youth Forum Sylhet | IYF Sylhet · Sri Sri Radha Madhava Mandir",
+    description:
+      "Official portal for ISKCON Youth Forum Sylhet (IYF Sylhet). Daily darshan timings, arati schedule, Gita classes, and youth empowerment in Sylhet.",
+    images: ["/opengraph-image"],
+    creator: "@iyfsyl",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  other: {
+    "geo.region": "BD-55",
+    "geo.placename": "Sylhet, Bangladesh",
+    "geo.position": "24.8996;91.8540",
+    ICBM: "24.8996, 91.8540",
+  },
 };
 
 export const viewport: Viewport = {
@@ -49,6 +119,9 @@ export default function RootLayout({
       lang="en"
       className={`${serif.variable} ${sans.variable} ${deva.variable}`}
     >
+      <head>
+        <OrganizationSchema />
+      </head>
       <body className="grain-page min-h-screen flex flex-col">
         <MotionProvider>
           <LenisProvider>

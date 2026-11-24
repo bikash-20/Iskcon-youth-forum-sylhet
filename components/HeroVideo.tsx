@@ -100,13 +100,13 @@ export default function HeroVideo() {
           initial={prefersReduced ? false : "hidden"}
           animate="show"
         >
-          <motion.p
+          <motion.div
             variants={rise}
-            className="inline-flex items-center gap-2 rounded-full border border-cream-50/20 bg-cream-50/5 px-3 py-1 text-xs uppercase tracking-[0.22em] text-cream-50/80 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 rounded-full border border-cream-50/20 bg-cream-50/10 px-3.5 py-1.5 text-xs font-medium tracking-[0.18em] text-cream-50/90 backdrop-blur-sm"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-saffron-300" />
-            Sri Sri Radha Madhava Mandir · Jugaltila
-          </motion.p>
+            <span className="h-2 w-2 rounded-full bg-saffron-300 animate-pulse" />
+            <span>ISKCON Youth Forum Sylhet · IYF Sylhet</span>
+          </motion.div>
 
           <motion.h1
             variants={rise}
@@ -119,11 +119,9 @@ export default function HeroVideo() {
 
           <motion.p
             variants={rise}
-            className="mt-6 max-w-xl font-serif text-lg sm:text-xl leading-relaxed text-cream-50/85 text-wrap: pretty"
+            className="mt-6 max-w-xl font-serif text-lg sm:text-xl leading-relaxed text-cream-50/90 text-wrap: pretty"
           >
-            The ISKCON Youth Forum, Sylhet — a circle of students and young
-            professionals reading scripture, singing kīrtan, and learning to
-            live with intention.
+            Welcome to <strong className="font-semibold text-saffron-200">ISKCON Youth Forum, Sylhet (IYF Sylhet)</strong> at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila — a circle of students and young professionals reading scripture, singing kīrtan, and learning to live with intention.
           </motion.p>
 
           <motion.div variants={rise} className="mt-10 flex flex-wrap items-center gap-3">

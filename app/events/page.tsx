@@ -1,10 +1,29 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import MotionCard from "@/components/MotionCard";
 import { UPCOMING_EVENTS } from "@/lib/content";
 
-export const metadata = {
-  title: "Events & Festivals · IYF Sylhet",
-  description: "Kirtans, festivals, and orientations at ISKCON Sylhet.",
+export const metadata: Metadata = {
+  title: "Events & Festivals | ISKCON Youth Forum Sylhet · ISKCON Mandir",
+  description:
+    "Upcoming festivals, youth seminars, Krishna Leela Mela (Janmashtami), Narasimha Jayanti, and Sunday kirtans at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir).",
+  keywords: [
+    "iskcon sylhet events",
+    "janmashtami sylhet iskcon",
+    "kirtan sylhet",
+    "iskcon youth forum sylhet events",
+    "sylhet iskcon festival dates",
+    "jugaltila mandir celebrations",
+  ],
+  alternates: {
+    canonical: "/events",
+  },
+  openGraph: {
+    title: "Events & Festivals | ISKCON Youth Forum Sylhet",
+    description:
+      "Celebrate festivals, attend Sunday kirtans, and participate in youth retreats at Sri Sri Radha Madhava Mandir.",
+    url: "/events",
+  },
 };
 
 function formatDate(iso: string) {
@@ -29,15 +48,14 @@ export default function EventsPage() {
     <article className="paper">
       <div className="mx-auto max-w-4xl px-5 pt-20 pb-12 sm:pt-28">
         <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
-          Events & Festivals
+          ISKCON Youth Forum Sylhet · Festivals & Gatherings
         </p>
         <h1 className="mt-3 font-serif text-5xl sm:text-6xl text-ink-900 tracking-tightish">
-          Festivals, kīrtans, and small gatherings.
+          Festivals, Kīrtans & Youth Retreats
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-800/80">
-          The year at ISKCON Sylhet moves to a Vedic calendar — Janmāṣṭamī,
-          Nṛsiṁha Caturdaśī, Ratha-yatrā, and many quiet weeknight kīrtans in
-          between.
+          Experience the spiritual calendar at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir) — Janmāṣṭamī Krishna Leela Mela,
+          Nṛsiṁha Caturdaśī, Ratha-yātrā, Be SMART orientation, and Sunday youth kīrtans in Jugaltila.
         </p>
       </div>
 

@@ -13,8 +13,8 @@ export default function AboutTeaser() {
             title="Where scripture meets the rhythm of a young life."
           />
           <p className="mt-6 dropcap text-lg leading-relaxed text-ink-800/90">
-            IYF Sylhet is the youth wing of ISKCON Sylhet — a circle that grew
-            out of the everyday life of Sri Sri Radha Madhava Mandir. Most of
+            IYF Sylhet is the youth wing of ISKCON Sylhet — a vibrant spiritual community that grew
+            out of the everyday devotional life of Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir) in Jugaltila. Most of
             us are students or early in our careers; a few are teachers,
             artists, and parents. We meet for kirtan, for classes, and for the
             quieter work of becoming better people.

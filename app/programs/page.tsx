@@ -1,11 +1,30 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import { COURSES } from "@/lib/content";
 
-export const metadata = {
-  title: "Programs & Courses · IYF Sylhet",
+export const metadata: Metadata = {
+  title: "Youth Programs & Courses | ISKCON Youth Forum Sylhet (IYF Sylhet)",
   description:
-    "Be SMART, Scripture Study, Kīrtan training, Discover Yourself (DYS), Stress Management through the Gītā, and Leadership & Personality Development — from the ISKCON Youth Forum, Sylhet.",
+    "Explore youth courses by ISKCON Youth Forum Sylhet: Be SMART, Discover Yourself (DYS), Stress Management through Gita, Kirtan Club, and Leadership training at Sri Sri Radha Madhava Mandir.",
+  keywords: [
+    "iyf sylhet courses",
+    "be smart course iskcon sylhet",
+    "discover yourself course sylhet",
+    "gita classes sylhet",
+    "iskcon youth forum programs",
+    "stress management through gita",
+    "kirtan training sylhet",
+  ],
+  alternates: {
+    canonical: "/programs",
+  },
+  openGraph: {
+    title: "Youth Programs & Courses | ISKCON Youth Forum Sylhet",
+    description:
+      "Practical spiritual courses for students and young professionals at Sri Sri Radha Madhava Mandir, Sylhet.",
+    url: "/programs",
+  },
 };
 
 export default function ProgramsPage() {
@@ -13,14 +32,14 @@ export default function ProgramsPage() {
     <article className="paper">
       <div className="mx-auto max-w-4xl px-5 pt-20 pb-12 sm:pt-28">
         <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
-          Programs & Courses
+          Youth Programs & Courses · IYF Sylhet
         </p>
         <h1 className="mt-3 font-serif text-5xl sm:text-6xl text-ink-900 tracking-tightish">
-          Three small doors into a bigger life.
+          Youth Courses & Study Circles
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-800/80">
-          Our courses are short, practical, and held in person at the mandir.
-          Newcomers are warmly welcome — no prior study required.
+          Our courses at ISKCON Youth Forum Sylhet are short, practical, and held in person at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir).
+          Newcomers and students are warmly welcome — no prior study required.
         </p>
       </div>
 

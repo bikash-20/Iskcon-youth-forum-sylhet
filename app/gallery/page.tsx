@@ -1,10 +1,27 @@
+import type { Metadata } from "next";
 import Gallery from "@/components/Gallery";
 import Reveal from "@/components/Reveal";
 
-export const metadata = {
-  title: "Gallery · IYF Sylhet",
+export const metadata: Metadata = {
+  title: "Temple Gallery & Moments | ISKCON Youth Forum Sylhet · Radha Madhava Mandir",
   description:
-    "Moments from kīrtans, festivals, classes, and the quiet in between at Sri Sri Radha Madhava Mandir, Jugaltila.",
+    "Artistic plates and moments from kirtans, Janmashtami festivals, youth classes, and deity darshan at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila.",
+  keywords: [
+    "iskcon sylhet photos",
+    "sylhet iskcon mondir gallery",
+    "iyf sylhet moments",
+    "radha madhava deities photos sylhet",
+    "jugaltila iskcon pictures",
+  ],
+  alternates: {
+    canonical: "/gallery",
+  },
+  openGraph: {
+    title: "Temple Gallery & Moments | ISKCON Youth Forum Sylhet",
+    description:
+      "Moments from kirtans, festivals, and classes at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir).",
+    url: "/gallery",
+  },
 };
 
 export default function GalleryPage() {
@@ -21,13 +38,13 @@ export default function GalleryPage() {
           <Reveal>
             <p className="flex items-center gap-2 font-sans text-[11px] uppercase tracking-[0.28em] text-maroon-700/80">
               <span aria-hidden className="h-px w-8 bg-maroon-700/40" />
-              Gallery · Plates from the temple
+              Gallery · Sri Sri Radha Madhava Mandir · IYF Sylhet
             </p>
           </Reveal>
 
           <Reveal delay={80} y={20}>
             <h1 className="mt-5 font-serif text-6xl sm:text-7xl leading-[1.02] text-ink-900 tracking-tightish">
-              Moments from <span className="italic text-maroon-700">the temple.</span>
+              Moments from <span className="italic text-maroon-700">Sylhet ISKCON Mondir.</span>
             </h1>
           </Reveal>
 

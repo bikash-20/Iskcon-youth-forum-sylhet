@@ -36,8 +36,8 @@ const CARDS = [
     icon: "🪈",
   },
   {
-    title: "Visit the Mandir",
-    desc: "Open daily in Jugaltila, opposite Osmani Medical College.",
+    title: "Visit Sylhet ISKCON Mondir",
+    desc: "Open daily at Sri Sri Radha Madhava Mandir, Jugaltila.",
     href: "/visit",
     icon: "📍",
   },

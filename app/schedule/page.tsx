@@ -1,13 +1,33 @@
+import type { Metadata } from "next";
 import LiveScheduleCard from "@/components/LiveScheduleCard";
 import VerseAndThought from "@/components/VerseAndThought";
 import FestivalCalendar from "@/components/FestivalCalendar";
 import MotionCard from "@/components/MotionCard";
 import { DAILY_PROGRAMME } from "@/lib/content";
 
-export const metadata = {
-  title: "Every Day at the Mandir · IYF Sylhet",
+export const metadata: Metadata = {
+  title: "Darshan & Arati Timings | Sylhet ISKCON Mondir Schedule · IYF Sylhet",
   description:
-    "Darshan, arati, classes, and festivals at Sri Sri Radha Madhava Mandir, Jugaltila.",
+    "Official daily Darshan and Arati schedule at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila. Mangal Arati 4:30 AM, Sandhya Arati 7:00 PM, and Bhagavatam classes.",
+  keywords: [
+    "iskcon sylhet darshan time",
+    "sylhet iskcon mondir aarti schedule",
+    "iskcon sylhet schedule",
+    "jugaltila iskcon mandir opening time",
+    "sri sri radha madhava mandir darshan",
+    "mangal arati iskcon sylhet",
+    "sandhya arati iskcon sylhet",
+    "সিলেট ইস্কন দর্শন সময়",
+  ],
+  alternates: {
+    canonical: "/schedule",
+  },
+  openGraph: {
+    title: "Darshan & Arati Timings | Sylhet ISKCON Mondir Schedule",
+    description:
+      "Daily temple schedule, darshan hours, and festival timings at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila.",
+    url: "/schedule",
+  },
 };
 
 export default function SchedulePage() {
@@ -15,14 +35,13 @@ export default function SchedulePage() {
     <article className="paper">
       <div className="mx-auto max-w-4xl px-5 pt-20 pb-10 sm:pt-28">
         <p className="font-sans text-xs uppercase tracking-[0.22em] text-maroon-700/80">
-          Every day at the mandir
+          Sri Sri Radha Madhava Mandir · Sylhet ISKCON Mondir
         </p>
         <h1 className="mt-3 font-serif text-5xl sm:text-6xl text-ink-900 tracking-tightish">
           Darshan & Arati Schedule
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink-800/80">
-          Timings shift slightly with the seasons. Mangal Arati begins before
-          sunrise — please arrive quietly.
+          Daily temple darshan and prayer timings at Sri Sri Radha Madhava Mandir (Sylhet ISKCON Mondir), Jugaltila. Mangal Arati begins at 4:30 AM before sunrise — please arrive quietly.
         </p>
       </div>
 
